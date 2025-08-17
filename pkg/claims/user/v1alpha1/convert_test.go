@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/edgefarm/vault-plugin-secrets-nats/pkg/claims/common"
+	"github.com/bonesofgiants/vault-plugin-secrets-nats/pkg/claims/common"
 	"github.com/nats-io/jwt/v2"
 	"github.com/stretchr/testify/assert"
 )

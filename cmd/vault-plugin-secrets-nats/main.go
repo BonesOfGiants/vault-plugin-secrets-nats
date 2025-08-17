@@ -3,9 +3,9 @@ package main
 import (
 	"os"
 
-	nats "github.com/edgefarm/vault-plugin-secrets-nats"
-	"github.com/hashicorp/vault/api"
-	"github.com/hashicorp/vault/sdk/plugin"
+	nats "github.com/bonesofgiants/vault-plugin-secrets-nats"
+	"github.com/openbao/openbao/api/v2"
+	"github.com/openbao/openbao/sdk/v2/plugin"
 
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"

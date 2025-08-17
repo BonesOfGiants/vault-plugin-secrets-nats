@@ -6,7 +6,7 @@ import (
 
 	"golang.org/x/exp/slices"
 
-	"github.com/edgefarm/vault-plugin-secrets-nats/pkg/claims/common"
+	"github.com/bonesofgiants/vault-plugin-secrets-nats/pkg/claims/common"
 	"github.com/nats-io/jwt/v2"
 )
 

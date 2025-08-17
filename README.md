@@ -1,11 +1,11 @@
 [contributors-shield]: https://img.shields.io/github/contributors/edgefarm/vault-plugin-secrets-nats.svg?style=for-the-badge
-[contributors-url]: https://github.com/edgefarm/vault-plugin-secrets-nats/graphs/contributors
+[contributors-url]: https://github.com/bonesofgiants/vault-plugin-secrets-nats/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/edgefarm/vault-plugin-secrets-nats.svg?style=for-the-badge
-[forks-url]: https://github.com/edgefarm/vault-plugin-secrets-nats/network/members
+[forks-url]: https://github.com/bonesofgiants/vault-plugin-secrets-nats/network/members
 [stars-shield]: https://img.shields.io/github/stars/edgefarm/vault-plugin-secrets-nats.svg?style=for-the-badge
-[stars-url]: https://github.com/edgefarm/vault-plugin-secrets-nats/stargazers
+[stars-url]: https://github.com/bonesofgiants/vault-plugin-secrets-nats/stargazers
 [issues-shield]: https://img.shields.io/github/issues/edgefarm/vault-plugin-secrets-nats.svg?style=for-the-badge
-[issues-url]: https://github.com/edgefarm/vault-plugin-secrets-nats/issues
+[issues-url]: https://github.com/bonesofgiants/vault-plugin-secrets-nats/issues
 [license-shield]: https://img.shields.io/github/license/edgefarm/vault-plugin-secrets-nats?style=for-the-badge
 [license-url]: https://opensource.org/license/mpl-2-0
 
@@ -18,7 +18,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://github.com/edgefarm/vault-plugin-secrets-nats">
+  <a href="https://github.com/bonesofgiants/vault-plugin-secrets-nats">
     <img src="https://github.com/edgefarm/edgefarm/raw/beta/.images/EdgefarmLogoWithText.png" alt="Logo" height="112">
   </a>
 
@@ -27,14 +27,14 @@
   <p align="center">
     Enhanced Hashicorp Vault plugin with dynamic JWT generation and templating for NATS secrets.
     <br />
-    <strong>Fork of <a href="https://github.com/edgefarm/vault-plugin-secrets-nats">edgefarm/vault-plugin-secrets-nats</a></strong>
+    <strong>Fork of <a href="https://github.com/bonesofgiants/vault-plugin-secrets-nats">edgefarm/vault-plugin-secrets-nats</a></strong>
   </p>
   <hr />
 </p>
 
 # About This Fork
 
-This is an enhanced fork of the [edgefarm/vault-plugin-secrets-nats](https://github.com/edgefarm/vault-plugin-secrets-nats) project that adds powerful new features for dynamic JWT generation and templating:
+This is an enhanced fork of the [edgefarm/vault-plugin-secrets-nats](https://github.com/bonesofgiants/vault-plugin-secrets-nats) project that adds powerful new features for dynamic JWT generation and templating:
 
 ## 🚀 New Features
 
@@ -291,7 +291,7 @@ just create-demo        # Create demo operator, account, and user
 
 ### Install from release
 
-Download the latest stable release from the [release](https://github.com/edgefarm/vault-plugin-secrets-nats/releases) page and put it into the `plugins_directory` of your vault server.
+Download the latest stable release from the [release](https://github.com/bonesofgiants/vault-plugin-secrets-nats/releases) page and put it into the `plugins_directory` of your vault server.
 
 To use a vault plugin you need the plugin's sha256 sum. You can download the file `vault-plugin-secrets-nats.sha256` file from the release, obtain it with `sha256sum vault-plugin-secrets-nats` or look within the OCI image at `/etc/vault/vault_plugins_checksums/vault-plugin-secrets-nats.sha256`.
 

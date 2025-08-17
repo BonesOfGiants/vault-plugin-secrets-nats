@@ -4,12 +4,13 @@ import (
 	"context"
 	"encoding/json"
 
-	"github.com/hashicorp/vault/sdk/framework"
-	"github.com/hashicorp/vault/sdk/logical"
+	"github.com/openbao/openbao/sdk/v2/framework"
+	"github.com/openbao/openbao/sdk/v2/logical"
+
 	"github.com/rs/zerolog/log"
 
-	"github.com/edgefarm/vault-plugin-secrets-nats/pkg/claims/user/v1alpha1"
-	"github.com/edgefarm/vault-plugin-secrets-nats/pkg/stm"
+	"github.com/bonesofgiants/vault-plugin-secrets-nats/pkg/claims/user/v1alpha1"
+	"github.com/bonesofgiants/vault-plugin-secrets-nats/pkg/stm"
 )
 
 type IssueUserStorage struct {
@@ -18,7 +19,7 @@ type IssueUserStorage struct {
 	User           string              `json:"user"`
 	UseSigningKey  string              `json:"useSigningKey"`
 	ClaimsTemplate v1alpha1.UserClaims `json:"claimsTemplate"`
-	ExpirationS    int64               `json:"expirationS,omitempty"`  
+	ExpirationS    int64               `json:"expirationS,omitempty"`
 	Status         IssueUserStatus     `json:"status"`
 }
 
@@ -127,34 +128,34 @@ func pathUserIssue(b *NatsBackend) []*framework.Path {
 }
 
 func (b *NatsBackend) pathAddUserIssue(ctx context.Context, req *logical.Request, data *framework.FieldData) (*logical.Response, error) {
-    err := data.Validate()
-    if err != nil {
-        return logical.ErrorResponse(InvalidParametersError), logical.ErrInvalidRequest
-    }
+	err := data.Validate()
+	if err != nil {
+		return logical.ErrorResponse(InvalidParametersError), logical.ErrInvalidRequest
+	}
 
-    jsonString, err := json.Marshal(data.Raw)
-    if err != nil {
-        return logical.ErrorResponse(DecodeFailedError), logical.ErrInvalidRequest
-    }
-    
-    params := IssueUserParameters{}
-    err = json.Unmarshal(jsonString, &params) // Handle the error!
-    if err != nil {
-        log.Error().Err(err).Msg("Failed to unmarshal parameters")
-        return logical.ErrorResponse("Failed to parse parameters"), logical.ErrInvalidRequest
-    }
+	jsonString, err := json.Marshal(data.Raw)
+	if err != nil {
+		return logical.ErrorResponse(DecodeFailedError), logical.ErrInvalidRequest
+	}
 
-    // Add debug logging
-    log.Debug().
-        Interface("claimsTemplate", params.ClaimsTemplate).
-        Int64("expirationS", params.ExpirationS).
-        Msg("Parsed parameters")
+	params := IssueUserParameters{}
+	err = json.Unmarshal(jsonString, &params) // Handle the error!
+	if err != nil {
+		log.Error().Err(err).Msg("Failed to unmarshal parameters")
+		return logical.ErrorResponse("Failed to parse parameters"), logical.ErrInvalidRequest
+	}
 
-    err = addUserIssue(ctx, req.Storage, params)
-    if err != nil {
-        return logical.ErrorResponse(AddingIssueFailedError), nil
-    }
-    return nil, nil
+	// Add debug logging
+	log.Debug().
+		Interface("claimsTemplate", params.ClaimsTemplate).
+		Int64("expirationS", params.ExpirationS).
+		Msg("Parsed parameters")
+
+	err = addUserIssue(ctx, req.Storage, params)
+	if err != nil {
+		return logical.ErrorResponse(AddingIssueFailedError), nil
+	}
+	return nil, nil
 }
 
 func (b *NatsBackend) pathReadUserIssue(ctx context.Context, req *logical.Request, data *framework.FieldData) (*logical.Response, error) {
@@ -352,7 +353,7 @@ func storeUserIssue(ctx context.Context, storage logical.Storage, params IssueUs
 	issue.Account = params.Account
 	issue.User = params.User
 	issue.UseSigningKey = params.UseSigningKey
-	
+
 	err = storeInStorage(ctx, storage, path, issue)
 	if err != nil {
 		return nil, err
@@ -393,7 +394,7 @@ func createResponseIssueUserData(issue *IssueUserStorage) (*logical.Response, er
 		User:           issue.User,
 		UseSigningKey:  issue.UseSigningKey,
 		ClaimsTemplate: issue.ClaimsTemplate,
-		ExpirationS:   issue.ExpirationS,
+		ExpirationS:    issue.ExpirationS,
 		Status:         issue.Status,
 	}
 

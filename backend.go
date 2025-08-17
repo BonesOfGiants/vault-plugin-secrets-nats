@@ -7,9 +7,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/edgefarm/vault-plugin-secrets-nats/pkg/stm"
-	"github.com/hashicorp/vault/sdk/framework"
-	"github.com/hashicorp/vault/sdk/logical"
+	"github.com/openbao/openbao/sdk/v2/framework"
+	"github.com/openbao/openbao/sdk/v2/logical"
+
+	"github.com/bonesofgiants/vault-plugin-secrets-nats/pkg/stm"
 )
 
 // natsBackend defines an object that
