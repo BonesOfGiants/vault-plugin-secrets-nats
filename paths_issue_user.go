@@ -9,8 +9,8 @@ import (
 
 	"github.com/rs/zerolog/log"
 
-	"github.com/bonesofgiants/vault-plugin-secrets-nats/pkg/claims/user/v1alpha1"
-	"github.com/bonesofgiants/vault-plugin-secrets-nats/pkg/stm"
+	"github.com/bonesofgiants/openbao-plugin-secrets-nats/pkg/claims/user/v1alpha1"
+	"github.com/bonesofgiants/openbao-plugin-secrets-nats/pkg/stm"
 )
 
 type IssueUserStorage struct {

@@ -23,9 +23,9 @@
 # Go workspace file
 go.work
 
-build/vault/plugins
+build/openbao/plugins
 .vscode
-vault-plugin-secrets-nats
+openbao-plugin-secrets-nats
 result
 
 

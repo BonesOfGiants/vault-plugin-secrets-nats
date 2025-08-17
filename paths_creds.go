@@ -6,7 +6,7 @@ import (
 	"github.com/openbao/openbao/sdk/v2/framework"
 	"github.com/openbao/openbao/sdk/v2/logical"
 
-	"github.com/bonesofgiants/vault-plugin-secrets-nats/pkg/stm"
+	"github.com/bonesofgiants/openbao-plugin-secrets-nats/pkg/stm"
 )
 
 // CredsStorage represents a Creds stored in the backend

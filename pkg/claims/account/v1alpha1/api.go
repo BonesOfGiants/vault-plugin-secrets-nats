@@ -1,5 +1,6 @@
 /*
 Copyright 2023 The EdgeFarm Authors.
+Modified 2025 Bones of Giants.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -19,7 +20,7 @@ package v1alpha1
 import (
 	"fmt"
 
-	"github.com/bonesofgiants/vault-plugin-secrets-nats/pkg/claims/common"
+	"github.com/bonesofgiants/openbao-plugin-secrets-nats/pkg/claims/common"
 	"github.com/nats-io/jwt/v2"
 )
 

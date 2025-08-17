@@ -10,11 +10,11 @@ import (
 	"github.com/openbao/openbao/sdk/v2/framework"
 	"github.com/openbao/openbao/sdk/v2/logical"
 
-	"github.com/bonesofgiants/vault-plugin-secrets-nats/pkg/stm"
+	"github.com/bonesofgiants/openbao-plugin-secrets-nats/pkg/stm"
 )
 
 // natsBackend defines an object that
-// extends the Vault backend and stores the
+// extends the OpenBao backend and stores the
 // target API's client.
 type NatsBackend struct {
 	*framework.Backend
@@ -31,7 +31,7 @@ func Factory(ctx context.Context, conf *logical.BackendConfig) (logical.Backend,
 }
 
 // backend defines the target API backend
-// for Vault. It must include each path
+// for OpenBao. It must include each path
 // and the secrets it will store.
 func backend() *NatsBackend {
 	var b = NatsBackend{}

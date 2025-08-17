@@ -8,7 +8,7 @@ import (
 	"github.com/openbao/openbao/sdk/v2/framework"
 	"github.com/openbao/openbao/sdk/v2/logical"
 
-	"github.com/bonesofgiants/vault-plugin-secrets-nats/pkg/stm"
+	"github.com/bonesofgiants/openbao-plugin-secrets-nats/pkg/stm"
 	"github.com/rs/zerolog/log"
 
 	"github.com/nats-io/nkeys"
@@ -35,7 +35,7 @@ type NkeyData struct {
 	Seed       string `json:"seed,omitempty"`
 }
 
-// pathNkey extends the Vault API with a `/nkey/<category>`
+// pathNkey extends the OpenBao API with a `/nkey/<category>`
 // endpoint for the natsBackend.
 func pathNkey(b *NatsBackend) []*framework.Path {
 	paths := []*framework.Path{}

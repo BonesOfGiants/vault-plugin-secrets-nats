@@ -7,7 +7,7 @@ import (
 	"github.com/nats-io/jwt/v2"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/bonesofgiants/vault-plugin-secrets-nats/pkg/claims/common"
+	"github.com/bonesofgiants/openbao-plugin-secrets-nats/pkg/claims/common"
 )
 
 func TestConvert(t *testing.T) {

@@ -3,6 +3,7 @@
 
 /*
 Copyright 2023 The EdgeFarm Authors.
+Modified 2025 Bones of Giants.
 
 Licensed under the Mozilla Public License, version 2.0 (the "License");
 you may not use this file except in compliance with the License.

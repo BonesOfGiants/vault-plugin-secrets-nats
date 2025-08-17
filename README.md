@@ -1,12 +1,12 @@
-[contributors-shield]: https://img.shields.io/github/contributors/edgefarm/vault-plugin-secrets-nats.svg?style=for-the-badge
-[contributors-url]: https://github.com/bonesofgiants/vault-plugin-secrets-nats/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/edgefarm/vault-plugin-secrets-nats.svg?style=for-the-badge
-[forks-url]: https://github.com/bonesofgiants/vault-plugin-secrets-nats/network/members
-[stars-shield]: https://img.shields.io/github/stars/edgefarm/vault-plugin-secrets-nats.svg?style=for-the-badge
-[stars-url]: https://github.com/bonesofgiants/vault-plugin-secrets-nats/stargazers
-[issues-shield]: https://img.shields.io/github/issues/edgefarm/vault-plugin-secrets-nats.svg?style=for-the-badge
-[issues-url]: https://github.com/bonesofgiants/vault-plugin-secrets-nats/issues
-[license-shield]: https://img.shields.io/github/license/edgefarm/vault-plugin-secrets-nats?style=for-the-badge
+[contributors-shield]: https://img.shields.io/github/contributors/bonesofgiants/openbao-plugin-secrets-nats.svg?style=for-the-badge
+[contributors-url]: https://github.com/bonesofgiants/openbao-plugin-secrets-nats/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/bonesofgiants/openbao-plugin-secrets-nats.svg?style=for-the-badge
+[forks-url]: https://github.com/bonesofgiants/openbao-plugin-secrets-nats/network/members
+[stars-shield]: https://img.shields.io/github/stars/bonesofgiants/openbao-plugin-secrets-nats.svg?style=for-the-badge
+[stars-url]: https://github.com/bonesofgiants/openbao-plugin-secrets-nats/stargazers
+[issues-shield]: https://img.shields.io/github/issues/bonesofgiants/openbao-plugin-secrets-nats.svg?style=for-the-badge
+[issues-url]: https://github.com/bonesofgiants/openbao-plugin-secrets-nats/issues
+[license-shield]: https://img.shields.io/github/license/bonesofgiants/openbao-plugin-secrets-nats?style=for-the-badge
 [license-url]: https://opensource.org/license/mpl-2-0
 
 [![Contributors][contributors-shield]][contributors-url]
@@ -15,26 +15,14 @@
 [![Issues][issues-shield]][issues-url]
 [![MPL-2.0 License][license-shield]][license-url]
 
-<!-- PROJECT LOGO -->
-<br />
-<p align="center">
-  <a href="https://github.com/bonesofgiants/vault-plugin-secrets-nats">
-    <img src="https://github.com/edgefarm/edgefarm/raw/beta/.images/EdgefarmLogoWithText.png" alt="Logo" height="112">
-  </a>
+# openbao-plugin-secrets-nats
 
-  <h2 align="center">vault-plugin-secrets-nats (Enhanced Fork)</h2>
+OpenBao secrets plugin with dynamic JWT generation and templating for NATS secrets.
 
-  <p align="center">
-    Enhanced Hashicorp Vault plugin with dynamic JWT generation and templating for NATS secrets.
-    <br />
-    <strong>Fork of <a href="https://github.com/bonesofgiants/vault-plugin-secrets-nats">edgefarm/vault-plugin-secrets-nats</a></strong>
-  </p>
-  <hr />
-</p>
+## About This Project
 
-# About This Fork
-
-This is an enhanced fork of the [edgefarm/vault-plugin-secrets-nats](https://github.com/bonesofgiants/vault-plugin-secrets-nats) project that adds powerful new features for dynamic JWT generation and templating:
+This is a fork of the archived [edgefarm/vault-plugin-secrets-nats](https://github.com/edgefarm/vault-plugin-secrets-nats) project and the subsequent 'enhanced' fork by [nunu-ai](https://github.com/nunu-ai/vault-plugin-secrets-nats). 
+Originally developed for HashiCorp Vault, it has been adapted for use with OpenBao.
 
 ## 🚀 New Features
 
@@ -59,16 +47,16 @@ Create **parameterized JWT templates** with placeholder variables that get subst
 ### Traditional Approach (Original)
 ```bash
 # Create user issue → JWT generated immediately and stored
-vault write nats-secrets/issue/operator/myop/account/myaccount/user/myuser claims='{...}'
+bao write nats-secrets/issue/operator/myop/account/myaccount/user/myuser claims='{...}'
 
 # Read credentials → Return pre-generated JWT
-vault read nats-secrets/creds/operator/myop/account/myaccount/user/myuser
+bao read nats-secrets/creds/operator/myop/account/myaccount/user/myuser
 ```
 
 ### New Dynamic Approach
 ```bash
 # Create user template with expiration and variables
-vault write nats-secrets/issue/operator/myop/account/myaccount/user/myuser \
+bao write nats-secrets/issue/operator/myop/account/myaccount/user/myuser \
   expirationS=3600 \
   claimsTemplate='{
     "aud": "{{user_id}}",
@@ -79,7 +67,7 @@ vault write nats-secrets/issue/operator/myop/account/myaccount/user/myuser \
   }'
 
 # Generate fresh, scoped credentials on-demand
-vault read nats-secrets/creds/operator/myop/account/myaccount/user/myuser \
+bao read nats-secrets/creds/operator/myop/account/myaccount/user/myuser \
   parameters='{"user_id": "user123", "region": "us-east-1"}'
 ```
 
@@ -89,7 +77,7 @@ vault read nats-secrets/creds/operator/myop/account/myaccount/user/myuser \
 
 ```bash
 # Create a user template with 1-hour expiration
-vault write nats-secrets/issue/operator/myop/account/myaccount/user/shortlived \
+bao write nats-secrets/issue/operator/myop/account/myaccount/user/shortlived \
   expirationS=3600 \
   claimsTemplate='{
     "nats": {
@@ -99,14 +87,14 @@ vault write nats-secrets/issue/operator/myop/account/myaccount/user/shortlived \
   }'
 
 # Generate fresh credentials (valid for 1 hour from now)
-vault read nats-secrets/creds/operator/myop/account/myaccount/user/shortlived
+bao read nats-secrets/creds/operator/myop/account/myaccount/user/shortlived
 ```
 
 ## Advanced Templating with Parameters
 
 ```bash
 # Create a parameterized template for multi-tenant application
-vault write nats-secrets/issue/operator/myop/account/myaccount/user/appclient \
+bao write nats-secrets/issue/operator/myop/account/myaccount/user/appclient \
   expirationS=1800 \
   claimsTemplate='{
     "aud": "{{tenant_id}}",
@@ -122,11 +110,11 @@ vault write nats-secrets/issue/operator/myop/account/myaccount/user/appclient \
   }'
 
 # Generate credentials for specific tenant and service
-vault read nats-secrets/creds/operator/myop/account/myaccount/user/appclient \
+bao read nats-secrets/creds/operator/myop/account/myaccount/user/appclient \
   parameters='{"tenant_id": "acme-corp", "service": "api"}'
 
 # Generate credentials for different context
-vault read nats-secrets/creds/operator/myop/account/myaccount/user/appclient \
+bao read nats-secrets/creds/operator/myop/account/myaccount/user/appclient \
   parameters='{"tenant_id": "widgets-inc", "service": "worker"}'
 ```
 
@@ -136,13 +124,13 @@ You can provide parameters in two formats:
 
 ### JSON Format
 ```bash
-vault read nats-secrets/creds/operator/op/account/acc/user/user \
+bao read nats-secrets/creds/operator/op/account/acc/user/user \
   parameters='{"user_id": "12345", "region": "us-west-2"}'
 ```
 
 ### Key-Value Format
 ```bash
-vault read nats-secrets/creds/operator/op/account/acc/user/user \
+bao read nats-secrets/creds/operator/op/account/acc/user/user \
   parameters="user_id=12345,region=us-west-2"
 ```
 
@@ -150,7 +138,7 @@ vault read nats-secrets/creds/operator/op/account/acc/user/user \
 
 # About The Original Project
 
-The original `vault-plugin-secrets-nats` is a Hashicorp Vault plugin that extends Vault with a secrets engine for [NATS](https://nats.io) for Nkey/JWT auth. It is capable of generating NATS credentials for operators, accounts and users, with the ability to push generated credentials to a NATS account server.
+The original `openbao-plugin-secrets-nats` is a Hashicorp OpenBao plugin that extends OpenBao with a secrets engine for [NATS](https://nats.io) for Nkey/JWT auth. It is capable of generating NATS credentials for operators, accounts and users, with the ability to push generated credentials to a NATS account server.
 
 ## Features
 
@@ -263,7 +251,7 @@ direnv allow
 
 **Available tools in dev environment:**
 - Go (latest)
-- Vault
+- OpenBao
 - Docker
 - Make
 - Just (task runner)
@@ -278,72 +266,32 @@ just --list
 
 **Quick development workflow:**
 ```bash
-# Start Vault in dev mode with plugin
+# Start OpenBao in dev mode with plugin
 just start
 
 # Or step by step:
 just clean              # Clean build artifacts
 just build              # Build the plugin
-just start-vault        # Start Vault in dev mode
+just start-bao          # Start OpenBao in dev mode
 just enable-plugin      # Register and enable plugin
 just create-demo        # Create demo operator, account, and user
 ```
 
 ### Install from release
 
-Download the latest stable release from the [release](https://github.com/bonesofgiants/vault-plugin-secrets-nats/releases) page and put it into the `plugins_directory` of your vault server.
+Download the latest stable release from the [release](https://github.com/bonesofgiants/openbao-plugin-secrets-nats/releases) page and put it into the `plugins_directory` of your vault server.
 
-To use a vault plugin you need the plugin's sha256 sum. You can download the file `vault-plugin-secrets-nats.sha256` file from the release, obtain it with `sha256sum vault-plugin-secrets-nats` or look within the OCI image at `/etc/vault/vault_plugins_checksums/vault-plugin-secrets-nats.sha256`.
+To use a vault plugin you need the plugin's sha256 sum. You can download the file `openbao-plugin-secrets-nats.sha256` file from the release, obtain it with `sha256sum openbao-plugin-secrets-nats` or look within the OCI image at `/etc/openbao/plugins_checksums/openbao-plugin-secrets-nats.sha256`.
 
 Example how to register the plugin:
 
 ```bash
-SHA256SUM=$(sha256sum vault-plugin-secrets-nats | cut -d' ' -f1)
-vault plugin register -sha256 ${SHA256SUM} secret vault-plugin-secrets-nats
-vault secrets enable -path=nats-secrets vault-plugin-secrets-nats
+SHA256SUM=$(sha256sum openbao-plugin-secrets-nats | cut -d' ' -f1)
+vault plugin register -sha256 ${SHA256SUM} secret openbao-plugin-secrets-nats
+vault secrets enable -path=nats-secrets openbao-plugin-secrets-nats
 ```
 
 **Note: you might use the `-tls-skip-verify` flag if you are using a self-signed certificate.**
-
-### Install from OCI image using bank-vaults in Kubernetes
-
-This project provides a custom built `vault` OCI image that includes the `vault-plugin-secrets-nats` plugin. See [here]() for available versions.
-The `plugins_directory` must be set to `/etc/vault/vault_plugins` in the `vault` configuration.
-
-This describes the steps to install the plugin using the `bank-vaults` operator. See [here](https://banzaicloud.com/docs/bank-vaults/operator/) for more information.
-Define the custom `vault` image in the `Vault` custom resource and configure 
-
-```yaml
-apiVersion: "vault.banzaicloud.com/v1alpha1"
-kind: "Vault"
-metadata:
-  name: "myVault"
-spec:
-  size: 1
-  # Use the custom vault image containing the NATS secrets plugin
-  image: ghcr.io/edgefarm/vault-plugin-secrets-nats/vault-with-nats-secrets:1.8.2
-  config:
-    disable_mlock: true
-    plugin_directory: "/etc/vault/vault_plugins"
-    listener:
-      tcp:
-        address: "0.0.0.0:8200"
-    api_addr: "https://0.0.0.0:8200"
-  externalConfig:
-    plugins:
-    - plugin_name: vault-plugin-secrets-nats
-      command: vault-plugin-secrets-nats --tls-skip-verify --ca-cert=/vault/tls/ca.crt
-      sha256: 008f8bfa812860717c9ddac7b3572744dc236e7045697ac87fbbb47718aac5e7
-      type: secret
-    secrets:
-    - path: nats-secrets
-      type: plugin
-      plugin_name: vault-plugin-secrets-nats
-      description: NATS secrets backend
-  # ...
-```
-
-See the full [dev/manifests/vault/vault.yaml](dev/manifests/vault/vault.yaml) for a full example of a `Vault` custom resource that can be used by the `vault-operator`.
 
 ## 🧪 Testing
 
@@ -372,13 +320,13 @@ $ PID=$!
 $ export VAULT_ADDR=https://127.0.0.1:8200
 $ VAULT_TOKEN=$(kubectl get secrets bank-vaults -n vault -o jsonpath='{.data.vault-root}' | base64 -d)
 $ echo $VAULT_TOKEN | vault login -
-$ vault secrets list
+$ bao secrets list
 Handling connection for 8200
 Path             Type                         Accessor                              Description
 ----             ----                         --------                              -----------
 cubbyhole/       cubbyhole                    cubbyhole_ec217496                    per-token private secret storage
 identity/        identity                     identity_9123b895                     identity store
-nats-secrets/    vault-plugin-secrets-nats    vault-plugin-secrets-nats_d8584dcc    NATS secrets backend
+nats-secrets/    openbao-plugin-secrets-nats    openbao-plugin-secrets-nats_d8584dcc    NATS secrets backend
 sys/             system                       system_5bd0e10f                       system endpoints used for control, policy and debugging
 $ pkill $PID
 
@@ -420,8 +368,8 @@ $ pkill $PID
 
 # 💡 Example
 
-Read this section to learn how to use `vault-plugin-secrets-nats` by trying out the example. 
-See the `example` directory for a full example. The example runs a locally running Vault server and a NATS server.
+Read this section to learn how to use `openbao-plugin-secrets-nats` by trying out the example. 
+See the `example` directory for a full example. The example runs a locally running OpenBao server and a NATS server.
 
 An operator and a sys account is created. Both are using signing keys. A sys account user called `default-push` is created 
 that is used to push the credentials to the NATS account server.
@@ -433,7 +381,7 @@ Note: please make sure that you have `docker` installed as the example starts a 
 
 ## 🛠️ Setup
 
-To use the plugin, you must first enable it with Vault. This example mounts the plugin at the path `nats-secrets`:
+To use the plugin, you must first enable it with OpenBao. This example mounts the plugin at the path `nats-secrets`:
 
 First run the development setup:
 
@@ -445,8 +393,8 @@ Then, enable the plugin (if not already done):
 
 ```console
 $ export VAULT_ADDR='http://127.0.0.1:8200'
-$ vault secrets enable -path=nats-secrets vault-plugin-secrets-nats
-Success! Enabled the vault-plugin-secrets-nats secrets engine at: nats-secrets/
+$ vault secrets enable -path=nats-secrets openbao-plugin-secrets-nats
+Success! Enabled the openbao-plugin-secrets-nats secrets engine at: nats-secrets/
 ```
 
 ## 🏁 Enhanced Example with Dynamic JWTs
@@ -464,7 +412,7 @@ Success! Data written to: nats-secrets/issue/operator/myop/account/sys/user/defa
 a5bd1e08562382aaf6b40f35203afd479bfa847fddf72a617dbd083446863071
 
 > Creating templated user with dynamic expiration
-vault write nats-secrets/issue/operator/myop/account/myaccount/user/dynamic-user \
+bao write nats-secrets/issue/operator/myop/account/myaccount/user/dynamic-user \
   expirationS=3600 \
   claimsTemplate='{
     "aud": "{{client_id}}",
@@ -475,7 +423,7 @@ vault write nats-secrets/issue/operator/myop/account/myaccount/user/dynamic-user
   }'
 
 > Generating scoped credentials for tenant "acme" service "api"
-vault read nats-secrets/creds/operator/myop/account/myaccount/user/dynamic-user \
+bao read nats-secrets/creds/operator/myop/account/myaccount/user/dynamic-user \
   parameters='{"client_id": "app123", "tenant": "acme", "service": "api"}'
 
 > Publishing using dynamic scoped creds
@@ -489,7 +437,7 @@ nats
 # 🐞 Debugging
 
 The recommended way to debug this plugin is to use write unit tests and debug them as standard go tests.
-If you like to debug the plugin in a running Vault instance you can use the following steps:
+If you like to debug the plugin in a running OpenBao instance you can use the following steps:
   1. `just start`, this will create a vault, install the plugin and add some demo data
   2. `just read-demo-user` will then read credentials for the demo user
   3. Or you can use vault CLI to interact with the plugin
@@ -509,7 +457,7 @@ Code contributions are very much **welcome**.
 
 # 🫶 Acknowledgements
 
-Thanks to the original [edgefarm](https://github.com/edgefarm) team for creating the foundational vault-plugin-secrets-nats.
+Thanks to the original [edgefarm](https://github.com/edgefarm) team for creating the foundational openbao-plugin-secrets-nats.
 
 Thanks to the NATS developers for providing a really great way of solving many problems with communication.
 

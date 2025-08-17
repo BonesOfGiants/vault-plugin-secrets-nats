@@ -1,4 +1,4 @@
-module github.com/bonesofgiants/vault-plugin-secrets-nats
+module github.com/bonesofgiants/openbao-plugin-secrets-nats
 
 go 1.24.0
 

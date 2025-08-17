@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	envVarRunAccTests       = "VAULT_ACC"
+	envVarRunAccTests       = "BAO_ACC"
 	envVarHashiCupsUsername = "TEST_HASHICUPS_USERNAME"
 	envVarHashiCupsPassword = "TEST_HASHICUPS_PASSWORD"
 	envVarHashiCupsURL      = "TEST_HASHICUPS_URL"
@@ -95,7 +95,7 @@ func (e *testEnv) AddUserTokenRole(t *testing.T) {
 }
 
 // ReadUserToken retrieves the user token
-// based on a Vault role.
+// based on an OpenBao role.
 func (e *testEnv) ReadUserToken(t *testing.T) {
 	req := &logical.Request{
 		Operation: logical.ReadOperation,

@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	nats "github.com/bonesofgiants/vault-plugin-secrets-nats"
+	nats "github.com/bonesofgiants/openbao-plugin-secrets-nats"
 	"github.com/openbao/openbao/api/v2"
 	"github.com/openbao/openbao/sdk/v2/plugin"
 

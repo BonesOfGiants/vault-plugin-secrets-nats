@@ -15,9 +15,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"gonum.org/v1/gonum/stat/combin"
 
-	"github.com/bonesofgiants/vault-plugin-secrets-nats/pkg/claims/common"
-	userv1 "github.com/bonesofgiants/vault-plugin-secrets-nats/pkg/claims/user/v1alpha1"
-	"github.com/bonesofgiants/vault-plugin-secrets-nats/pkg/stm"
+	"github.com/bonesofgiants/openbao-plugin-secrets-nats/pkg/claims/common"
+	userv1 "github.com/bonesofgiants/openbao-plugin-secrets-nats/pkg/claims/user/v1alpha1"
+	"github.com/bonesofgiants/openbao-plugin-secrets-nats/pkg/stm"
 )
 
 func TestCRUDUserIssue(t *testing.T) {

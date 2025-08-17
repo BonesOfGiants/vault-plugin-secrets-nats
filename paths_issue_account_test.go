@@ -8,8 +8,8 @@ import (
 
 	"github.com/openbao/openbao/sdk/v2/logical"
 
-	accountv1 "github.com/bonesofgiants/vault-plugin-secrets-nats/pkg/claims/account/v1alpha1"
-	"github.com/bonesofgiants/vault-plugin-secrets-nats/pkg/stm"
+	accountv1 "github.com/bonesofgiants/openbao-plugin-secrets-nats/pkg/claims/account/v1alpha1"
+	"github.com/bonesofgiants/openbao-plugin-secrets-nats/pkg/stm"
 	"github.com/nats-io/jwt/v2"
 	"github.com/stretchr/testify/assert"
 )

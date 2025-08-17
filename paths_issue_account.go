@@ -10,12 +10,12 @@ import (
 	"github.com/openbao/openbao/sdk/v2/framework"
 	"github.com/openbao/openbao/sdk/v2/logical"
 
-	"github.com/bonesofgiants/vault-plugin-secrets-nats/pkg/resolver"
-	"github.com/bonesofgiants/vault-plugin-secrets-nats/pkg/stm"
+	"github.com/bonesofgiants/openbao-plugin-secrets-nats/pkg/resolver"
+	"github.com/bonesofgiants/openbao-plugin-secrets-nats/pkg/stm"
 	"github.com/nats-io/nkeys"
 	"github.com/rs/zerolog/log"
 
-	v1alpha1 "github.com/bonesofgiants/vault-plugin-secrets-nats/pkg/claims/account/v1alpha1"
+	v1alpha1 "github.com/bonesofgiants/openbao-plugin-secrets-nats/pkg/claims/account/v1alpha1"
 )
 
 type IssueAccountStorage struct {

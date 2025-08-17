@@ -2,7 +2,7 @@
 package v1alpha1
 
 import (
-	"github.com/bonesofgiants/vault-plugin-secrets-nats/pkg/claims/common"
+	"github.com/bonesofgiants/openbao-plugin-secrets-nats/pkg/claims/common"
 )
 
 // +kubebuilder:object:generate=true
