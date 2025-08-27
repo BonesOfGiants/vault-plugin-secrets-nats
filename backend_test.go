@@ -67,7 +67,7 @@ func (e *testEnv) AddConfig(t *testing.T) {
 		Operation: logical.CreateOperation,
 		Path:      "config",
 		Storage:   e.Storage,
-		Data: map[string]interface{}{
+		Data: map[string]any{
 			"username": e.Username,
 			"password": e.Password,
 			"url":      e.URL,
@@ -85,7 +85,7 @@ func (e *testEnv) AddUserTokenRole(t *testing.T) {
 		Operation: logical.UpdateOperation,
 		Path:      "role/test-user-token",
 		Storage:   e.Storage,
-		Data: map[string]interface{}{
+		Data: map[string]any{
 			"username": e.Username,
 		},
 	}

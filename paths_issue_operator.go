@@ -731,7 +731,7 @@ func createResponseIssueOperatorData(issue *IssueOperatorStorage, status *IssueO
 		Status:              *status,
 	}
 
-	rval := map[string]interface{}{}
+	rval := map[string]any{}
 	err := stm.StructToMap(data, &rval)
 	if err != nil {
 		return nil, err

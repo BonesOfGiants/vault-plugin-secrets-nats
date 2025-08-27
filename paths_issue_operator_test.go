@@ -47,7 +47,7 @@ func TestCRUDOperatorIssue(t *testing.T) {
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
 
-		assert.True(t, reflect.DeepEqual(resp.Data, map[string]interface{}{}))
+		assert.True(t, reflect.DeepEqual(resp.Data, map[string]any{}))
 	})
 
 	t.Run("Test CRUD logic for operator issuer", func(t *testing.T) {
@@ -56,7 +56,7 @@ func TestCRUDOperatorIssue(t *testing.T) {
 		// Prepare the test data
 		/////////////////////////
 		var path string = "issue/operator/op1"
-		var request map[string]interface{}
+		var request map[string]any
 		var expected IssueOperatorData
 		var current IssueOperatorData
 
@@ -197,7 +197,7 @@ func TestCRUDOperatorIssue(t *testing.T) {
 		//////////////////////////////////
 		// Check, only one key is listed
 		//////////////////////////////////
-		assert.Equal(t, map[string]interface{}{"keys": []string{"op1"}}, resp.Data)
+		assert.Equal(t, map[string]any{"keys": []string{"op1"}}, resp.Data)
 
 		/////////////////////////
 		// Then delete the key
@@ -228,7 +228,7 @@ func TestCRUDOperatorIssue(t *testing.T) {
 			Operation: logical.CreateOperation,
 			Path:      path,
 			Storage:   reqStorage,
-			Data:      map[string]interface{}{},
+			Data:      map[string]any{},
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
@@ -264,7 +264,7 @@ func TestCRUDOperatorIssue(t *testing.T) {
 				Operation: logical.CreateOperation,
 				Path:      path,
 				Storage:   reqStorage,
-				Data:      map[string]interface{}{},
+				Data:      map[string]any{},
 			})
 			assert.NoError(t, err)
 			assert.False(t, resp.IsError())
@@ -278,7 +278,7 @@ func TestCRUDOperatorIssue(t *testing.T) {
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
-		assert.Equal(t, map[string]interface{}{
+		assert.Equal(t, map[string]any{
 			"keys": []string{"op0", "op1", "op2"},
 		}, resp.Data)
 
@@ -302,7 +302,7 @@ func TestCRUDOperatorIssue(t *testing.T) {
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
-		assert.Equal(t, map[string]interface{}{}, resp.Data)
+		assert.Equal(t, map[string]any{}, resp.Data)
 
 	})
 
@@ -314,10 +314,10 @@ func TestCRUDOperatorIssue(t *testing.T) {
 			Operation: logical.CreateOperation,
 			Path:      path,
 			Storage:   reqStorage,
-			Data: map[string]interface{}{
-				"claims": map[string]interface{}{
-					"operator": map[string]interface{}{
-						"signingKeys": []interface{}{
+			Data: map[string]any{
+				"claims": map[string]any{
+					"operator": map[string]any{
+						"signingKeys": []any{
 							"key1",
 							"key2",
 							"key3",
@@ -416,7 +416,7 @@ func TestCRUDOperatorIssue(t *testing.T) {
 			Operation: logical.CreateOperation,
 			Path:      path,
 			Storage:   reqStorage,
-			Data:      map[string]interface{}{},
+			Data:      map[string]any{},
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
@@ -436,10 +436,10 @@ func TestCRUDOperatorIssue(t *testing.T) {
 			Operation: logical.UpdateOperation,
 			Path:      "issue/operator/op",
 			Storage:   reqStorage,
-			Data: map[string]interface{}{
-				"claims": map[string]interface{}{
-					"operator": map[string]interface{}{
-						"signingKeys": []interface{}{
+			Data: map[string]any{
+				"claims": map[string]any{
+					"operator": map[string]any{
+						"signingKeys": []any{
 							"key1",
 							"key2",
 							"key3",
@@ -480,10 +480,10 @@ func TestCRUDOperatorIssue(t *testing.T) {
 			Operation: logical.UpdateOperation,
 			Path:      "issue/operator/op",
 			Storage:   reqStorage,
-			Data: map[string]interface{}{
-				"claims": map[string]interface{}{
-					"operator": map[string]interface{}{
-						"signingKeys": []interface{}{
+			Data: map[string]any{
+				"claims": map[string]any{
+					"operator": map[string]any{
+						"signingKeys": []any{
 							"key2",
 							"key3",
 							"key4",
@@ -515,7 +515,7 @@ func TestCRUDOperatorIssue(t *testing.T) {
 			Operation: logical.CreateOperation,
 			Path:      path,
 			Storage:   reqStorage,
-			Data:      map[string]interface{}{},
+			Data:      map[string]any{},
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
@@ -535,7 +535,7 @@ func TestCRUDOperatorIssue(t *testing.T) {
 			Operation: logical.UpdateOperation,
 			Path:      path,
 			Storage:   reqStorage,
-			Data: map[string]interface{}{
+			Data: map[string]any{
 				"CreateSystemAccount": true,
 			},
 		})

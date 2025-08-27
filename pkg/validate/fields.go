@@ -7,7 +7,7 @@ import (
 
 type Key uint32
 
-func ValidateFields(data map[string]interface{}, valid []string) error {
+func ValidateFields(data map[string]any, valid []string) error {
 	mapKeys := []string{}
 	for key := range data {
 		mapKeys = append(mapKeys, key)

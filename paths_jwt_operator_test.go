@@ -60,14 +60,14 @@ func TestCRUDOperatorJWTs(t *testing.T) {
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
-		assert.Equal(t, resp.Data, map[string]interface{}{})
+		assert.Equal(t, resp.Data, map[string]any{})
 
 		// then create the key and read it
 		resp, err = b.HandleRequest(context.Background(), &logical.Request{
 			Operation: logical.CreateOperation,
 			Path:      path,
 			Storage:   reqStorage,
-			Data: map[string]interface{}{
+			Data: map[string]any{
 				"jwt": createOperatorJWT(),
 			},
 		})
@@ -90,7 +90,7 @@ func TestCRUDOperatorJWTs(t *testing.T) {
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
-		assert.Equal(t, map[string]interface{}{"keys": []string{"Op1"}}, resp.Data)
+		assert.Equal(t, map[string]any{"keys": []string{"Op1"}}, resp.Data)
 
 		// then update the jwt and read it
 		jwt := createOperatorJWT()
@@ -98,7 +98,7 @@ func TestCRUDOperatorJWTs(t *testing.T) {
 			Operation: logical.UpdateOperation,
 			Path:      path,
 			Storage:   reqStorage,
-			Data: map[string]interface{}{
+			Data: map[string]any{
 				"jwt": jwt,
 			},
 		})
@@ -136,7 +136,7 @@ func TestCRUDOperatorJWTs(t *testing.T) {
 			Operation: logical.CreateOperation,
 			Path:      path,
 			Storage:   reqStorage,
-			Data: map[string]interface{}{
+			Data: map[string]any{
 				"jwt": createOperatorJWT(),
 			},
 		})
@@ -168,7 +168,7 @@ func TestCRUDOperatorJWTs(t *testing.T) {
 				Operation: logical.CreateOperation,
 				Path:      path,
 				Storage:   reqStorage,
-				Data: map[string]interface{}{
+				Data: map[string]any{
 					"jwt": createOperatorJWT(),
 				},
 			})
@@ -184,7 +184,7 @@ func TestCRUDOperatorJWTs(t *testing.T) {
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
-		assert.Equal(t, map[string]interface{}{
+		assert.Equal(t, map[string]any{
 			"keys": []string{"op0", "op1", "op2"},
 		}, resp.Data)
 
@@ -208,7 +208,7 @@ func TestCRUDOperatorJWTs(t *testing.T) {
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
-		assert.Equal(t, map[string]interface{}{}, resp.Data)
+		assert.Equal(t, map[string]any{}, resp.Data)
 
 	})
 
@@ -218,7 +218,7 @@ func TestCRUDOperatorJWTs(t *testing.T) {
 			Operation: logical.CreateOperation,
 			Path:      "jwt/operator/op1",
 			Storage:   reqStorage,
-			Data: map[string]interface{}{
+			Data: map[string]any{
 				"jwt": createAccountJWT(),
 			},
 		})
@@ -229,7 +229,7 @@ func TestCRUDOperatorJWTs(t *testing.T) {
 			Operation: logical.CreateOperation,
 			Path:      "jwt/operator/op1",
 			Storage:   reqStorage,
-			Data: map[string]interface{}{
+			Data: map[string]any{
 				"jwt": "wrong jwt",
 			},
 		})

@@ -10,7 +10,7 @@ package natsbackend
 // 	// Prepare
 // 	//------------------------
 
-// 	var request map[string]interface{}
+// 	var request map[string]any
 // 	b, reqStorage := getTestBackend(t)
 // 	var currentOperator IssueOperatorData
 // 	var expectedOperator IssueOperatorData

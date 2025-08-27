@@ -33,7 +33,7 @@ func TestCRUDUserIssue(t *testing.T) {
 			Operation: logical.CreateOperation,
 			Path:      "issue/operator/op1",
 			Storage:   reqStorage,
-			Data:      map[string]interface{}{},
+			Data:      map[string]any{},
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
@@ -43,7 +43,7 @@ func TestCRUDUserIssue(t *testing.T) {
 			Operation: logical.CreateOperation,
 			Path:      "issue/operator/op1/account/ac1",
 			Storage:   reqStorage,
-			Data:      map[string]interface{}{},
+			Data:      map[string]any{},
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
@@ -72,7 +72,7 @@ func TestCRUDUserIssue(t *testing.T) {
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
-		assert.Equal(t, resp.Data, map[string]interface{}{})
+		assert.Equal(t, resp.Data, map[string]any{})
 
 	})
 
@@ -82,7 +82,7 @@ func TestCRUDUserIssue(t *testing.T) {
 		// Prepare the test data
 		/////////////////////////
 		var path string = "issue/operator/op1/account/ac1/user/us1"
-		var request map[string]interface{}
+		var request map[string]any
 		var expected IssueUserData
 		var current IssueUserData
 
@@ -91,7 +91,7 @@ func TestCRUDUserIssue(t *testing.T) {
 			Operation: logical.CreateOperation,
 			Path:      "issue/operator/op1",
 			Storage:   reqStorage,
-			Data:      map[string]interface{}{},
+			Data:      map[string]any{},
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
@@ -101,7 +101,7 @@ func TestCRUDUserIssue(t *testing.T) {
 			Operation: logical.CreateOperation,
 			Path:      "issue/operator/op1/account/ac1",
 			Storage:   reqStorage,
-			Data:      map[string]interface{}{},
+			Data:      map[string]any{},
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
@@ -136,7 +136,7 @@ func TestCRUDUserIssue(t *testing.T) {
 			Operation: logical.CreateOperation,
 			Path:      path,
 			Storage:   reqStorage,
-			Data:      map[string]interface{}{},
+			Data:      map[string]any{},
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
@@ -249,7 +249,7 @@ func TestCRUDUserIssue(t *testing.T) {
 		//////////////////////////////////
 		// Check, only one key is listed
 		//////////////////////////////////
-		assert.Equal(t, map[string]interface{}{"keys": []string{"us1"}}, resp.Data)
+		assert.Equal(t, map[string]any{"keys": []string{"us1"}}, resp.Data)
 
 		/////////////////////////
 		// Then delete the key
@@ -280,7 +280,7 @@ func TestCRUDUserIssue(t *testing.T) {
 			Operation: logical.CreateOperation,
 			Path:      path,
 			Storage:   reqStorage,
-			Data:      map[string]interface{}{},
+			Data:      map[string]any{},
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
@@ -314,14 +314,14 @@ func TestCRUDUserIssue(t *testing.T) {
 		// Prepare the test data
 		/////////////////////////
 		var path string = "issue/operator/op1/account/ac1/user/us1"
-		var request map[string]interface{}
+		var request map[string]any
 
 		// first create operator issue to be able to create account issue
 		resp, err := b.HandleRequest(context.Background(), &logical.Request{
 			Operation: logical.CreateOperation,
 			Path:      "issue/operator/op1",
 			Storage:   reqStorage,
-			Data:      map[string]interface{}{},
+			Data:      map[string]any{},
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
@@ -331,7 +331,7 @@ func TestCRUDUserIssue(t *testing.T) {
 			Operation: logical.CreateOperation,
 			Path:      "issue/operator/op1/account/ac1",
 			Storage:   reqStorage,
-			Data:      map[string]interface{}{},
+			Data:      map[string]any{},
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
@@ -349,7 +349,7 @@ func TestCRUDUserIssue(t *testing.T) {
 			Operation: logical.CreateOperation,
 			Path:      path,
 			Storage:   reqStorage,
-			Data:      map[string]interface{}{},
+			Data:      map[string]any{},
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
@@ -474,14 +474,14 @@ func TestCRUDUserIssue(t *testing.T) {
 		var nkeyUserPath = "nkey/" + path
 		var jwtUserPath = "jwt/" + path
 		var credsUserPath = "creds/" + path
-		var request map[string]interface{}
+		var request map[string]any
 
 		// first create operator issue to be able to create account issue
 		resp, err := b.HandleRequest(context.Background(), &logical.Request{
 			Operation: logical.CreateOperation,
 			Path:      "issue/operator/op1",
 			Storage:   reqStorage,
-			Data:      map[string]interface{}{},
+			Data:      map[string]any{},
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
@@ -491,7 +491,7 @@ func TestCRUDUserIssue(t *testing.T) {
 			Operation: logical.CreateOperation,
 			Path:      "issue/operator/op1/account/" + DefaultSysAccountName,
 			Storage:   reqStorage,
-			Data:      map[string]interface{}{},
+			Data:      map[string]any{},
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
@@ -509,7 +509,7 @@ func TestCRUDUserIssue(t *testing.T) {
 			Operation: logical.CreateOperation,
 			Path:      issueUserPath,
 			Storage:   reqStorage,
-			Data:      map[string]interface{}{},
+			Data:      map[string]any{},
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
@@ -630,7 +630,7 @@ func TestWithUserRandomizedOrder(t *testing.T) {
 				Operation: logical.CreateOperation,
 				Path:      "issue/operator/" + operatorName,
 				Storage:   reqStorage,
-				Data:      map[string]interface{}{},
+				Data:      map[string]any{},
 			},
 		},
 		{
@@ -639,7 +639,7 @@ func TestWithUserRandomizedOrder(t *testing.T) {
 				Operation: logical.CreateOperation,
 				Path:      "issue/operator/" + operatorName + "/account/" + DefaultSysAccountName,
 				Storage:   reqStorage,
-				Data:      map[string]interface{}{},
+				Data:      map[string]any{},
 			},
 		},
 		{
@@ -648,7 +648,7 @@ func TestWithUserRandomizedOrder(t *testing.T) {
 				Operation: logical.CreateOperation,
 				Path:      "issue/operator/" + operatorName + "/account/" + DefaultSysAccountName + "/user/" + DefaultPushUser,
 				Storage:   reqStorage,
-				Data:      map[string]interface{}{},
+				Data:      map[string]any{},
 			},
 		},
 		{
@@ -657,7 +657,7 @@ func TestWithUserRandomizedOrder(t *testing.T) {
 				Operation: logical.CreateOperation,
 				Path:      "issue/operator/" + operatorName + "/account/" + accountName,
 				Storage:   reqStorage,
-				Data:      map[string]interface{}{},
+				Data:      map[string]any{},
 			},
 		},
 		{
@@ -666,37 +666,37 @@ func TestWithUserRandomizedOrder(t *testing.T) {
 				Operation: logical.CreateOperation,
 				Path:      "issue/operator/" + operatorName + "/account/" + accountName + "/user/" + userName,
 				Storage:   reqStorage,
-				Data:      map[string]interface{}{},
+				Data:      map[string]any{},
 			},
 		},
 	}
 
 	check := func(identifier string) {
 		// Check operator issue, nkey and jwt
-		err := listPath(b, reqStorage, "issue/operator/", map[string]interface{}{"keys": []string{operatorName}})
+		err := listPath(b, reqStorage, "issue/operator/", map[string]any{"keys": []string{operatorName}})
 		bailOutOnErr(t, identifier, err)
-		err = listPath(b, reqStorage, "jwt/operator/", map[string]interface{}{"keys": []string{operatorName}})
+		err = listPath(b, reqStorage, "jwt/operator/", map[string]any{"keys": []string{operatorName}})
 		bailOutOnErr(t, identifier, err)
-		err = listPath(b, reqStorage, "nkey/operator/", map[string]interface{}{"keys": []string{operatorName}})
+		err = listPath(b, reqStorage, "nkey/operator/", map[string]any{"keys": []string{operatorName}})
 		bailOutOnErr(t, identifier, err)
 		// Check account issue, nkey and jwt
-		err = listPath(b, reqStorage, "issue/operator/"+operatorName+"/account/", map[string]interface{}{"keys": []string{accountName, DefaultSysAccountName}})
+		err = listPath(b, reqStorage, "issue/operator/"+operatorName+"/account/", map[string]any{"keys": []string{accountName, DefaultSysAccountName}})
 		bailOutOnErr(t, identifier, err)
-		err = listPath(b, reqStorage, "jwt/operator/"+operatorName+"/account/", map[string]interface{}{"keys": []string{accountName, DefaultSysAccountName}})
+		err = listPath(b, reqStorage, "jwt/operator/"+operatorName+"/account/", map[string]any{"keys": []string{accountName, DefaultSysAccountName}})
 		bailOutOnErr(t, identifier, err)
-		err = listPath(b, reqStorage, "nkey/operator/"+operatorName+"/account/", map[string]interface{}{"keys": []string{accountName, DefaultSysAccountName}})
+		err = listPath(b, reqStorage, "nkey/operator/"+operatorName+"/account/", map[string]any{"keys": []string{accountName, DefaultSysAccountName}})
 		bailOutOnErr(t, identifier, err)
 		// Check default push-user issue (from sys account), nkey - skip JWT since it's not stored
-		err = listPath(b, reqStorage, "issue/operator/"+operatorName+"/account/"+DefaultSysAccountName+"/user/", map[string]interface{}{"keys": []string{DefaultPushUser}})
+		err = listPath(b, reqStorage, "issue/operator/"+operatorName+"/account/"+DefaultSysAccountName+"/user/", map[string]any{"keys": []string{DefaultPushUser}})
 		bailOutOnErr(t, identifier, err)
 		// UPDATED: Skip JWT list check since user JWTs are not stored anymore
-		err = listPath(b, reqStorage, "nkey/operator/"+operatorName+"/account/"+DefaultSysAccountName+"/user/", map[string]interface{}{"keys": []string{DefaultPushUser}})
+		err = listPath(b, reqStorage, "nkey/operator/"+operatorName+"/account/"+DefaultSysAccountName+"/user/", map[string]any{"keys": []string{DefaultPushUser}})
 		bailOutOnErr(t, identifier, err)
 		// Check user issue, nkey - skip JWT since it's not stored
-		err = listPath(b, reqStorage, "issue/operator/"+operatorName+"/account/"+accountName+"/user/", map[string]interface{}{"keys": []string{userName}})
+		err = listPath(b, reqStorage, "issue/operator/"+operatorName+"/account/"+accountName+"/user/", map[string]any{"keys": []string{userName}})
 		bailOutOnErr(t, identifier, err)
 		// UPDATED: Skip JWT list check since user JWTs are not stored anymore
-		err = listPath(b, reqStorage, "nkey/operator/"+operatorName+"/account/"+accountName+"/user/", map[string]interface{}{"keys": []string{userName}})
+		err = listPath(b, reqStorage, "nkey/operator/"+operatorName+"/account/"+accountName+"/user/", map[string]any{"keys": []string{userName}})
 		bailOutOnErr(t, identifier, err)
 
 		// Check JWTs for validity (only for operator and accounts, not users)
@@ -738,12 +738,12 @@ func bailOutOnErr(t *testing.T, identifier string, err error) {
 	}
 }
 
-func listPath(b *NatsBackend, reqStorage logical.Storage, path string, expected map[string]interface{}) error {
+func listPath(b *NatsBackend, reqStorage logical.Storage, path string, expected map[string]any) error {
 	resp, err := b.HandleRequest(context.Background(), &logical.Request{
 		Operation: logical.ListOperation,
 		Path:      path,
 		Storage:   reqStorage,
-		Data:      map[string]interface{}{},
+		Data:      map[string]any{},
 	})
 	if err != nil {
 		return err
@@ -763,7 +763,7 @@ func checkOperatorJWTForSysAccount(b *NatsBackend, reqStorage logical.Storage, o
 		Operation: logical.ReadOperation,
 		Path:      "jwt/operator/" + operatorName,
 		Storage:   reqStorage,
-		Data:      map[string]interface{}{},
+		Data:      map[string]any{},
 	})
 	if err != nil {
 		return err
@@ -782,7 +782,7 @@ func checkOperatorJWTForSysAccount(b *NatsBackend, reqStorage logical.Storage, o
 		Operation: logical.ReadOperation,
 		Path:      "jwt/operator/" + operatorName + "/account/" + DefaultSysAccountName,
 		Storage:   reqStorage,
-		Data:      map[string]interface{}{},
+		Data:      map[string]any{},
 	})
 	if err != nil {
 		return err
@@ -807,7 +807,7 @@ func checkAccountJWTForOperator(b *NatsBackend, reqStorage logical.Storage, oper
 		Operation: logical.ReadOperation,
 		Path:      "jwt/operator/" + operatorName,
 		Storage:   reqStorage,
-		Data:      map[string]interface{}{},
+		Data:      map[string]any{},
 	})
 	if err != nil {
 		return err
@@ -825,7 +825,7 @@ func checkAccountJWTForOperator(b *NatsBackend, reqStorage logical.Storage, oper
 		Operation: logical.ReadOperation,
 		Path:      "jwt/operator/" + operatorName + "/account/" + accountName,
 		Storage:   reqStorage,
-		Data:      map[string]interface{}{},
+		Data:      map[string]any{},
 	})
 	if err != nil {
 		return err
@@ -851,7 +851,7 @@ func checkUserCredsGeneration(b *NatsBackend, reqStorage logical.Storage, operat
 		Operation: logical.ReadOperation,
 		Path:      "creds/operator/" + operatorName + "/account/" + accountName + "/user/" + userName,
 		Storage:   reqStorage,
-		Data:      map[string]interface{}{},
+		Data:      map[string]any{},
 	})
 	if err != nil {
 		return err

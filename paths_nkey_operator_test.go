@@ -48,7 +48,7 @@ func TestCRUDOperatorNKeys(t *testing.T) {
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
-		assert.Equal(t, resp.Data, map[string]interface{}{})
+		assert.Equal(t, resp.Data, map[string]any{})
 
 		// then create the key and read it
 		resp, err = b.HandleRequest(context.Background(), &logical.Request{
@@ -82,7 +82,7 @@ func TestCRUDOperatorNKeys(t *testing.T) {
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
-		assert.Equal(t, map[string]interface{}{"keys": []string{"Op1"}}, resp.Data)
+		assert.Equal(t, map[string]any{"keys": []string{"Op1"}}, resp.Data)
 
 		// then update the key and read it
 		seed = genOperatorSeed()
@@ -90,7 +90,7 @@ func TestCRUDOperatorNKeys(t *testing.T) {
 			Operation: logical.UpdateOperation,
 			Path:      path,
 			Storage:   reqStorage,
-			Data: map[string]interface{}{
+			Data: map[string]any{
 				"seed": seed,
 			},
 		})
@@ -176,7 +176,7 @@ func TestCRUDOperatorNKeys(t *testing.T) {
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
-		assert.Equal(t, map[string]interface{}{
+		assert.Equal(t, map[string]any{
 			"keys": []string{"op0", "op1", "op2"},
 		}, resp.Data)
 
@@ -200,7 +200,7 @@ func TestCRUDOperatorNKeys(t *testing.T) {
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
-		assert.Equal(t, map[string]interface{}{}, resp.Data)
+		assert.Equal(t, map[string]any{}, resp.Data)
 
 	})
 
@@ -213,7 +213,7 @@ func TestCRUDOperatorNKeys(t *testing.T) {
 			Operation: logical.CreateOperation,
 			Path:      path,
 			Storage:   reqStorage,
-			Data: map[string]interface{}{
+			Data: map[string]any{
 				"seed": seed,
 			},
 		})
@@ -237,7 +237,7 @@ func TestCRUDOperatorNKeys(t *testing.T) {
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
-		assert.Equal(t, map[string]interface{}{
+		assert.Equal(t, map[string]any{
 			"keys": []string{"op1"},
 		}, resp.Data)
 
@@ -257,7 +257,7 @@ func TestCRUDOperatorNKeys(t *testing.T) {
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
-		assert.Equal(t, map[string]interface{}{}, resp.Data)
+		assert.Equal(t, map[string]any{}, resp.Data)
 
 	})
 }

@@ -27,7 +27,7 @@ func TestCRUDAccountIssue(t *testing.T) {
 			Operation: logical.CreateOperation,
 			Path:      "issue/operator/op1",
 			Storage:   reqStorage,
-			Data:      map[string]interface{}{},
+			Data:      map[string]any{},
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
@@ -56,7 +56,7 @@ func TestCRUDAccountIssue(t *testing.T) {
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
-		assert.Equal(t, resp.Data, map[string]interface{}{})
+		assert.Equal(t, resp.Data, map[string]any{})
 
 	})
 
@@ -66,7 +66,7 @@ func TestCRUDAccountIssue(t *testing.T) {
 		// Prepare the test data
 		/////////////////////////
 		var path string = "issue/operator/op1/account/ac1"
-		var request map[string]interface{}
+		var request map[string]any
 		var expected IssueAccountData
 		var current IssueAccountData
 
@@ -75,7 +75,7 @@ func TestCRUDAccountIssue(t *testing.T) {
 			Operation: logical.CreateOperation,
 			Path:      "issue/operator/op1",
 			Storage:   reqStorage,
-			Data:      map[string]interface{}{},
+			Data:      map[string]any{},
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
@@ -215,7 +215,7 @@ func TestCRUDAccountIssue(t *testing.T) {
 		//////////////////////////////////
 		// Check, only one key is listed
 		//////////////////////////////////
-		assert.Equal(t, map[string]interface{}{"keys": []string{"ac1"}}, resp.Data)
+		assert.Equal(t, map[string]any{"keys": []string{"ac1"}}, resp.Data)
 
 		/////////////////////////
 		// Then delete the key
@@ -246,7 +246,7 @@ func TestCRUDAccountIssue(t *testing.T) {
 			Operation: logical.CreateOperation,
 			Path:      path,
 			Storage:   reqStorage,
-			Data:      map[string]interface{}{},
+			Data:      map[string]any{},
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
@@ -281,7 +281,7 @@ func TestCRUDAccountIssue(t *testing.T) {
 			Operation: logical.CreateOperation,
 			Path:      "issue/operator/op1",
 			Storage:   reqStorage,
-			Data:      map[string]interface{}{},
+			Data:      map[string]any{},
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
@@ -293,7 +293,7 @@ func TestCRUDAccountIssue(t *testing.T) {
 				Operation: logical.CreateOperation,
 				Path:      path,
 				Storage:   reqStorage,
-				Data:      map[string]interface{}{},
+				Data:      map[string]any{},
 			})
 			assert.NoError(t, err)
 			assert.False(t, resp.IsError())
@@ -307,7 +307,7 @@ func TestCRUDAccountIssue(t *testing.T) {
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
-		assert.Equal(t, map[string]interface{}{
+		assert.Equal(t, map[string]any{
 			"keys": []string{"ac0", "ac1", "ac2"},
 		}, resp.Data)
 
@@ -331,7 +331,7 @@ func TestCRUDAccountIssue(t *testing.T) {
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
-		assert.Equal(t, map[string]interface{}{}, resp.Data)
+		assert.Equal(t, map[string]any{}, resp.Data)
 	})
 
 }
@@ -349,7 +349,7 @@ func TestAccountBeforeOperatorCreatingSysAccount(t *testing.T) {
 	// 3. After creating the operator all accounts JWTs are created referencing the operators public key as issuer in the JWT claims.
 	t.Run("Account before Operator creating SYS account", func(t *testing.T) {
 		path := "issue/operator/op1/account"
-		request := map[string]interface{}{}
+		request := map[string]any{}
 		var current JWTData
 		var acountJWT JWTData
 
@@ -359,7 +359,7 @@ func TestAccountBeforeOperatorCreatingSysAccount(t *testing.T) {
 			Operation: logical.CreateOperation,
 			Path:      path + "/ac1",
 			Storage:   reqStorage,
-			Data:      map[string]interface{}{},
+			Data:      map[string]any{},
 		})
 		assert.NoError(t, err)
 		assert.True(t, resp.IsError())
@@ -368,7 +368,7 @@ func TestAccountBeforeOperatorCreatingSysAccount(t *testing.T) {
 			Operation: logical.CreateOperation,
 			Path:      path + "/ac2",
 			Storage:   reqStorage,
-			Data:      map[string]interface{}{},
+			Data:      map[string]any{},
 		})
 		assert.NoError(t, err)
 		assert.True(t, resp.IsError())
@@ -381,7 +381,7 @@ func TestAccountBeforeOperatorCreatingSysAccount(t *testing.T) {
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
-		assert.Equal(t, map[string]interface{}{
+		assert.Equal(t, map[string]any{
 			"keys": []string{"ac1", "ac2"},
 		}, resp.Data)
 
@@ -393,7 +393,7 @@ func TestAccountBeforeOperatorCreatingSysAccount(t *testing.T) {
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
-		assert.Equal(t, map[string]interface{}{}, resp.Data)
+		assert.Equal(t, map[string]any{}, resp.Data)
 
 		// 2. During creating of the operator issue, the operators nkey and JWT is created. The operator also creates
 		// the sys account and puts the sys account's information in it's JWT.
@@ -419,7 +419,7 @@ func TestAccountBeforeOperatorCreatingSysAccount(t *testing.T) {
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
-		assert.Equal(t, map[string]interface{}{
+		assert.Equal(t, map[string]any{
 			"keys": []string{"op1"},
 		}, resp.Data)
 
@@ -431,7 +431,7 @@ func TestAccountBeforeOperatorCreatingSysAccount(t *testing.T) {
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
-		assert.Equal(t, map[string]interface{}{
+		assert.Equal(t, map[string]any{
 			"keys": []string{"op1"},
 		}, resp.Data)
 
@@ -443,7 +443,7 @@ func TestAccountBeforeOperatorCreatingSysAccount(t *testing.T) {
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
-		assert.Equal(t, map[string]interface{}{
+		assert.Equal(t, map[string]any{
 			"keys": []string{"op1"},
 		}, resp.Data)
 
@@ -452,7 +452,7 @@ func TestAccountBeforeOperatorCreatingSysAccount(t *testing.T) {
 			Operation: logical.ReadOperation,
 			Path:      "jwt/operator/op1",
 			Storage:   reqStorage,
-			Data:      map[string]interface{}{},
+			Data:      map[string]any{},
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
@@ -464,7 +464,7 @@ func TestAccountBeforeOperatorCreatingSysAccount(t *testing.T) {
 			Operation: logical.ReadOperation,
 			Path:      "jwt/operator/op1/account/" + DefaultSysAccountName,
 			Storage:   reqStorage,
-			Data:      map[string]interface{}{},
+			Data:      map[string]any{},
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
@@ -480,11 +480,11 @@ func TestAccountBeforeOperatorCreatingSysAccount(t *testing.T) {
 			Operation: logical.ListOperation,
 			Path:      "issue/operator/op1/account/",
 			Storage:   reqStorage,
-			Data:      map[string]interface{}{},
+			Data:      map[string]any{},
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
-		assert.Equal(t, map[string]interface{}{
+		assert.Equal(t, map[string]any{
 			"keys": []string{"ac1", "ac2", DefaultSysAccountName},
 		}, resp.Data)
 
@@ -493,11 +493,11 @@ func TestAccountBeforeOperatorCreatingSysAccount(t *testing.T) {
 			Operation: logical.ListOperation,
 			Path:      "jwt/operator/op1/account/",
 			Storage:   reqStorage,
-			Data:      map[string]interface{}{},
+			Data:      map[string]any{},
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
-		assert.Equal(t, map[string]interface{}{
+		assert.Equal(t, map[string]any{
 			"keys": []string{"ac1", "ac2", DefaultSysAccountName},
 		}, resp.Data)
 
@@ -506,7 +506,7 @@ func TestAccountBeforeOperatorCreatingSysAccount(t *testing.T) {
 			Operation: logical.ReadOperation,
 			Path:      "jwt/operator/op1/account/ac1",
 			Storage:   reqStorage,
-			Data:      map[string]interface{}{},
+			Data:      map[string]any{},
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
@@ -521,7 +521,7 @@ func TestAccountBeforeOperatorCreatingSysAccount(t *testing.T) {
 			Operation: logical.ReadOperation,
 			Path:      "jwt/operator/op1/account/ac1",
 			Storage:   reqStorage,
-			Data:      map[string]interface{}{},
+			Data:      map[string]any{},
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
@@ -553,7 +553,7 @@ func TestAccountBeforeOperatorAndSysAccount(t *testing.T) {
 			Operation: logical.CreateOperation,
 			Path:      path,
 			Storage:   reqStorage,
-			Data:      map[string]interface{}{},
+			Data:      map[string]any{},
 		})
 		assert.NoError(t, err)
 		assert.True(t, resp.IsError())
@@ -566,7 +566,7 @@ func TestAccountBeforeOperatorAndSysAccount(t *testing.T) {
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
-		assert.Equal(t, map[string]interface{}{
+		assert.Equal(t, map[string]any{
 			"keys": []string{"ac1"},
 		}, resp.Data)
 
@@ -578,7 +578,7 @@ func TestAccountBeforeOperatorAndSysAccount(t *testing.T) {
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
-		assert.Equal(t, map[string]interface{}{}, resp.Data)
+		assert.Equal(t, map[string]any{}, resp.Data)
 
 		// 2. During creating of the operator issue, the operators nkey and JWT is created. However the operators JWT
 		// is missing information about the system account.
@@ -587,7 +587,7 @@ func TestAccountBeforeOperatorAndSysAccount(t *testing.T) {
 			Operation: logical.CreateOperation,
 			Path:      "issue/operator/op1",
 			Storage:   reqStorage,
-			Data:      map[string]interface{}{},
+			Data:      map[string]any{},
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
@@ -600,7 +600,7 @@ func TestAccountBeforeOperatorAndSysAccount(t *testing.T) {
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
-		assert.Equal(t, map[string]interface{}{
+		assert.Equal(t, map[string]any{
 			"keys": []string{"op1"},
 		}, resp.Data)
 
@@ -612,7 +612,7 @@ func TestAccountBeforeOperatorAndSysAccount(t *testing.T) {
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
-		assert.Equal(t, map[string]interface{}{
+		assert.Equal(t, map[string]any{
 			"keys": []string{"op1"},
 		}, resp.Data)
 
@@ -624,7 +624,7 @@ func TestAccountBeforeOperatorAndSysAccount(t *testing.T) {
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
-		assert.Equal(t, map[string]interface{}{
+		assert.Equal(t, map[string]any{
 			"keys": []string{"op1"},
 		}, resp.Data)
 
@@ -648,7 +648,7 @@ func TestAccountBeforeOperatorAndSysAccount(t *testing.T) {
 			Operation: logical.CreateOperation,
 			Path:      "issue/operator/op1/account/" + DefaultSysAccountName,
 			Storage:   reqStorage,
-			Data:      map[string]interface{}{},
+			Data:      map[string]any{},
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
@@ -658,11 +658,11 @@ func TestAccountBeforeOperatorAndSysAccount(t *testing.T) {
 			Operation: logical.ListOperation,
 			Path:      "issue/operator/op1/account/",
 			Storage:   reqStorage,
-			Data:      map[string]interface{}{},
+			Data:      map[string]any{},
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
-		assert.Equal(t, map[string]interface{}{
+		assert.Equal(t, map[string]any{
 			"keys": []string{"ac1", DefaultSysAccountName},
 		}, resp.Data)
 
@@ -671,11 +671,11 @@ func TestAccountBeforeOperatorAndSysAccount(t *testing.T) {
 			Operation: logical.ListOperation,
 			Path:      "jwt/operator/op1/account/",
 			Storage:   reqStorage,
-			Data:      map[string]interface{}{},
+			Data:      map[string]any{},
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
-		assert.Equal(t, map[string]interface{}{
+		assert.Equal(t, map[string]any{
 			"keys": []string{"ac1", DefaultSysAccountName},
 		}, resp.Data)
 
@@ -684,7 +684,7 @@ func TestAccountBeforeOperatorAndSysAccount(t *testing.T) {
 			Operation: logical.ReadOperation,
 			Path:      "jwt/operator/op1",
 			Storage:   reqStorage,
-			Data:      map[string]interface{}{},
+			Data:      map[string]any{},
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
@@ -696,7 +696,7 @@ func TestAccountBeforeOperatorAndSysAccount(t *testing.T) {
 			Operation: logical.ReadOperation,
 			Path:      "jwt/operator/op1/account/" + DefaultSysAccountName,
 			Storage:   reqStorage,
-			Data:      map[string]interface{}{},
+			Data:      map[string]any{},
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
@@ -711,7 +711,7 @@ func TestAccountBeforeOperatorAndSysAccount(t *testing.T) {
 			Operation: logical.ReadOperation,
 			Path:      "jwt/operator/op1/account/ac1",
 			Storage:   reqStorage,
-			Data:      map[string]interface{}{},
+			Data:      map[string]any{},
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())

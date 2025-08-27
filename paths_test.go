@@ -33,7 +33,7 @@ func TestXxx(t *testing.T) {
 			Operation: logical.CreateOperation,
 			Path:      "nkey/operator/op123",
 			Storage:   reqStorage,
-			Data: map[string]interface{}{
+			Data: map[string]any{
 				"seed": seed,
 			},
 		})
@@ -57,7 +57,7 @@ func TestXxx(t *testing.T) {
 			Operation: logical.CreateOperation,
 			Path:      "jwt/operator/op123",
 			Storage:   reqStorage,
-			Data: map[string]interface{}{
+			Data: map[string]any{
 				"jwt": operatorJWT,
 			},
 		})

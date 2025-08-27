@@ -31,7 +31,7 @@ func TestStructToMap(t *testing.T) {
 			F: false,
 		},
 	}
-	m := make(map[string]interface{})
+	m := make(map[string]any)
 	err := StructToMap(s, &m)
 	assert.NoError(err)
 	assert.Equal("a", m["a"])
@@ -57,7 +57,7 @@ func TestMapToStruct(t *testing.T) {
 		nested
 	}
 
-	m := map[string]interface{}{
+	m := map[string]any{
 		"a": "a",
 		"b": 1,
 		"c": true,

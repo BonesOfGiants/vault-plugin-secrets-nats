@@ -103,7 +103,7 @@ func (b *NatsBackend) getClient(ctx context.Context, s logical.Storage) (*NatsCl
 	return b.client, nil
 }
 
-func (b *NatsBackend) put(ctx context.Context, s logical.Storage, path string, data interface{}) error {
+func (b *NatsBackend) put(ctx context.Context, s logical.Storage, path string, data any) error {
 	b.lock.Lock()
 	defer b.lock.Unlock()
 
@@ -172,7 +172,7 @@ func readOperation[T any](ctx context.Context, s logical.Storage, path string) (
 		return nil, nil
 	}
 
-	var groupMap map[string]interface{}
+	var groupMap map[string]any
 	err = stm.StructToMap(t, &groupMap)
 	if err != nil {
 		return nil, err

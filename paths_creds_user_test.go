@@ -35,7 +35,7 @@ func TestCRUDUserCreds(t *testing.T) {
 			Operation: logical.CreateOperation,
 			Path:      "nkey/operator/op1",
 			Storage:   reqStorage,
-			Data:      map[string]interface{}{},
+			Data:      map[string]any{},
 		}
 		resp, err := b.HandleRequest(context.Background(), operatorNkeyReq)
 		assert.NoError(t, err)
@@ -48,7 +48,7 @@ func TestCRUDUserCreds(t *testing.T) {
 			Operation: logical.CreateOperation,
 			Path:      "nkey/operator/op1/account/acc1",
 			Storage:   reqStorage,
-			Data:      map[string]interface{}{},
+			Data:      map[string]any{},
 		}
 		resp, err = b.HandleRequest(context.Background(), accountNkeyReq)
 		assert.NoError(t, err)
@@ -61,19 +61,19 @@ func TestCRUDUserCreds(t *testing.T) {
 			Operation: logical.CreateOperation,
 			Path:      "issue/operator/op1/account/acc1/user/u1",
 			Storage:   reqStorage,
-			Data: map[string]interface{}{
+			Data: map[string]any{
 				"operator":    "op1",
 				"account":     "acc1",
 				"user":        "u1",
 				"expirationS": int64(3600), // 1 hour
-				"claimsTemplate": map[string]interface{}{
+				"claimsTemplate": map[string]any{
 					"aud": "test-audience", // Single string, not array
 					"sub": "",              // Will be filled by the user's public key
-					"nats": map[string]interface{}{
-						"pub": map[string]interface{}{
+					"nats": map[string]any{
+						"pub": map[string]any{
 							"allow": []string{"test.>"},
 						},
-						"sub": map[string]interface{}{
+						"sub": map[string]any{
 							"allow": []string{"test.>"},
 						},
 					},
@@ -131,7 +131,7 @@ func TestCRUDUserCreds(t *testing.T) {
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
-		assert.Equal(t, map[string]interface{}{"keys": []string{"u1"}}, resp.Data)
+		assert.Equal(t, map[string]any{"keys": []string{"u1"}}, resp.Data)
 
 		// 7. Test deleting the user issue template
 		resp, err = b.HandleRequest(context.Background(), &logical.Request{
@@ -160,19 +160,19 @@ func TestCRUDUserCreds(t *testing.T) {
 			Operation: logical.CreateOperation,
 			Path:      "issue/operator/op1/account/acc1/user/u2",
 			Storage:   reqStorage,
-			Data: map[string]interface{}{
+			Data: map[string]any{
 				"operator":    "op1",
 				"account":     "acc1",
 				"user":        "u2",
 				"expirationS": int64(7200), // 2 hours
-				"claimsTemplate": map[string]interface{}{
+				"claimsTemplate": map[string]any{
 					"aud": "{{user_id}}", // Single string template
 					"sub": "",            // Will be filled by the user's public key
-					"nats": map[string]interface{}{
-						"pub": map[string]interface{}{
+					"nats": map[string]any{
+						"pub": map[string]any{
 							"allow": []string{"{{region}}.{{user_id}}.>"},
 						},
-						"sub": map[string]interface{}{
+						"sub": map[string]any{
 							"allow": []string{"{{region}}.{{user_id}}.>"},
 						},
 					},
@@ -191,7 +191,7 @@ func TestCRUDUserCreds(t *testing.T) {
 			Operation: logical.ReadOperation,
 			Path:      credsPath,
 			Storage:   reqStorage,
-			Data: map[string]interface{}{
+			Data: map[string]any{
 				"parameters": `{"user_id": "12345", "region": "us-east-1"}`,
 			},
 		})
@@ -200,10 +200,10 @@ func TestCRUDUserCreds(t *testing.T) {
 		assert.NotNil(t, resp.Data["creds"])
 		assert.NotEmpty(t, resp.Data["creds"].(string))
 
-		// Check that parameters are returned (JSON unmarshaling converts to map[string]interface{})
+		// Check that parameters are returned (JSON unmarshaling converts to map[string]any)
 		assert.NotNil(t, resp.Data["parameters"])
-		params, ok := resp.Data["parameters"].(map[string]interface{})
-		assert.True(t, ok, "parameters should be map[string]interface{}")
+		params, ok := resp.Data["parameters"].(map[string]any)
+		assert.True(t, ok, "parameters should be map[string]any")
 		assert.Equal(t, "12345", params["user_id"])
 		assert.Equal(t, "us-east-1", params["region"])
 
@@ -212,7 +212,7 @@ func TestCRUDUserCreds(t *testing.T) {
 			Operation: logical.ReadOperation,
 			Path:      credsPath,
 			Storage:   reqStorage,
-			Data: map[string]interface{}{
+			Data: map[string]any{
 				"parameters": "user_id=67890,region=eu-west-1",
 			},
 		})
@@ -220,8 +220,8 @@ func TestCRUDUserCreds(t *testing.T) {
 		assert.False(t, resp2.IsError())
 		assert.NotNil(t, resp2.Data["creds"])
 
-		params2, ok := resp2.Data["parameters"].(map[string]interface{})
-		assert.True(t, ok, "parameters should be map[string]interface{}")
+		params2, ok := resp2.Data["parameters"].(map[string]any)
+		assert.True(t, ok, "parameters should be map[string]any")
 		assert.Equal(t, "67890", params2["user_id"])
 		assert.Equal(t, "eu-west-1", params2["region"])
 
@@ -231,7 +231,7 @@ func TestCRUDUserCreds(t *testing.T) {
 			Operation: logical.ReadOperation,
 			Path:      credsPath,
 			Storage:   reqStorage,
-			Data: map[string]interface{}{
+			Data: map[string]any{
 				"parameters": `{"user_id": "12345"}`, // Missing region
 			},
 		})
@@ -253,19 +253,19 @@ func TestCRUDUserCreds(t *testing.T) {
 				Operation: logical.CreateOperation,
 				Path:      fmt.Sprintf("issue/operator/op1/account/acc1/user/u%d", i),
 				Storage:   reqStorage,
-				Data: map[string]interface{}{
+				Data: map[string]any{
 					"operator":    "op1",
 					"account":     "acc1",
 					"user":        fmt.Sprintf("u%d", i),
 					"expirationS": int64(3600),
-					"claimsTemplate": map[string]interface{}{
+					"claimsTemplate": map[string]any{
 						"aud": fmt.Sprintf("audience-%d", i), // Single string
 						"sub": "",
-						"nats": map[string]interface{}{
-							"pub": map[string]interface{}{
+						"nats": map[string]any{
+							"pub": map[string]any{
 								"allow": []string{fmt.Sprintf("user%d.>", i)},
 							},
-							"sub": map[string]interface{}{
+							"sub": map[string]any{
 								"allow": []string{fmt.Sprintf("user%d.>", i)},
 							},
 						},
@@ -336,6 +336,6 @@ func TestCRUDUserCreds(t *testing.T) {
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
-		assert.Equal(t, map[string]interface{}{}, resp.Data)
+		assert.Equal(t, map[string]any{}, resp.Data)
 	})
 }

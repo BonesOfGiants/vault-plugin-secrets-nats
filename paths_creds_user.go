@@ -452,7 +452,7 @@ func getUserCredsPath(operator string, account string, user string) string {
 }
 
 func createResponseUserCredsData(UserCredsData *UserCredsData) (*logical.Response, error) {
-	rval := map[string]interface{}{}
+	rval := map[string]any{}
 	err := stm.StructToMap(UserCredsData, &rval)
 	if err != nil {
 		return nil, err

@@ -39,7 +39,7 @@ func TestCRUDUserNKeys(t *testing.T) {
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
-		assert.Equal(t, resp.Data, map[string]interface{}{})
+		assert.Equal(t, resp.Data, map[string]any{})
 
 		// then create the key and read it
 		resp, err = b.HandleRequest(context.Background(), &logical.Request{
@@ -73,7 +73,7 @@ func TestCRUDUserNKeys(t *testing.T) {
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
-		assert.Equal(t, map[string]interface{}{"keys": []string{"U1"}}, resp.Data)
+		assert.Equal(t, map[string]any{"keys": []string{"U1"}}, resp.Data)
 
 		// then delete the key and read it
 		resp, err = b.HandleRequest(context.Background(), &logical.Request{
@@ -154,7 +154,7 @@ func TestCRUDUserNKeys(t *testing.T) {
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
-		assert.Equal(t, map[string]interface{}{"keys": []string{"U1", "U2", "U3"}}, resp.Data)
+		assert.Equal(t, map[string]any{"keys": []string{"U1", "U2", "U3"}}, resp.Data)
 
 		// delete the keys
 		resp, err = b.HandleRequest(context.Background(), &logical.Request{
@@ -189,7 +189,7 @@ func TestCRUDUserNKeys(t *testing.T) {
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
-		assert.Equal(t, map[string]interface{}{}, resp.Data)
+		assert.Equal(t, map[string]any{}, resp.Data)
 
 	})
 }

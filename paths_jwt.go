@@ -51,7 +51,7 @@ func createResponseJWTData(jwt *JWTStorage) (*logical.Response, error) {
 		JWTStorage: *jwt,
 	}
 
-	rval := map[string]interface{}{}
+	rval := map[string]any{}
 	err := stm.StructToMap(d, &rval)
 	if err != nil {
 		return nil, err

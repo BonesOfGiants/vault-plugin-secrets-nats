@@ -26,7 +26,7 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-func (r *Resolver) multiRequest(subject string, operation string, reqData []byte, respHandler func(srv string, data interface{})) int {
+func (r *Resolver) multiRequest(subject string, operation string, reqData []byte, respHandler func(srv string, data any)) int {
 	ib := nats.NewInbox()
 	sub, err := r.nc.SubscribeSync(ib)
 	if err != nil {
@@ -72,8 +72,8 @@ func (r *Resolver) DeleteAccounts(acc []string, operatorKp nkeys.KeyPair) (int, 
 		return 0, err
 	}
 	respPrune := r.multiRequest(ClaimsDeleteSubject, "delete", []byte(pruneJwt),
-		func(srv string, data interface{}) {
-			if dataMap, ok := data.(map[string]interface{}); ok {
+		func(srv string, data any) {
+			if dataMap, ok := data.(map[string]any); ok {
 				log.Info().Msgf("pruned nats-server %s: %s", srv, dataMap["message"])
 			} else {
 				log.Info().Msgf("pruned nats-server %s: %v", srv, data)
@@ -85,8 +85,8 @@ func (r *Resolver) DeleteAccounts(acc []string, operatorKp nkeys.KeyPair) (int, 
 
 func (r *Resolver) PushAccount(accountName string, accountJWT []byte) error {
 	resp := r.multiRequest(ClaimsUpdateSubject, "create", accountJWT,
-		func(srv string, data interface{}) {
-			if dataMap, ok := data.(map[string]interface{}); ok {
+		func(srv string, data any) {
+			if dataMap, ok := data.(map[string]any); ok {
 				log.Info().Msgf("pushed %q to nats-server %s: %s", accountName, srv, dataMap["message"])
 			} else {
 				log.Info().Msgf("pushed %q to nats-server %s: %v", accountName, srv, data)
@@ -98,7 +98,7 @@ func (r *Resolver) PushAccount(accountName string, accountJWT []byte) error {
 	return nil
 }
 
-func processResponse(resp *nats.Msg) (bool, string, interface{}) {
+func processResponse(resp *nats.Msg) (bool, string, any) {
 	// ServerInfo copied from nats-server, refresh as needed. Error and Data are mutually exclusive
 	serverResp := struct {
 		Server *struct {
@@ -115,7 +115,7 @@ func processResponse(resp *nats.Msg) (bool, string, interface{}) {
 			Description string `json:"description"`
 			Code        int    `json:"code"`
 		} `json:"error"`
-		Data interface{} `json:"data"`
+		Data any `json:"data"`
 	}{}
 	if err := json.Unmarshal(resp.Data, &serverResp); err != nil {
 		log.Error().Msgf("resolver: failed to parse response: %v data: %s", err, string(resp.Data))

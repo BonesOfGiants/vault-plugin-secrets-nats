@@ -831,7 +831,7 @@ func createResponseIssueAccountData(issue *IssueAccountStorage) (*logical.Respon
 		Status:        issue.Status,
 	}
 
-	rval := map[string]interface{}{}
+	rval := map[string]any{}
 	err := stm.StructToMap(data, &rval)
 	if err != nil {
 		return nil, err

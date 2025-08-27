@@ -129,7 +129,7 @@ func createResponseNkeyData(nkey *NKeyStorage) (*logical.Response, error) {
 		return nil, err
 	}
 
-	rval := map[string]interface{}{}
+	rval := map[string]any{}
 	err = stm.StructToMap(d, &rval)
 	if err != nil {
 		return nil, err

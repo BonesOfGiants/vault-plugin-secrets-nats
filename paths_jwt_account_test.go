@@ -41,14 +41,14 @@ func TestCRUDAccountJWTs(t *testing.T) {
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
-		assert.Equal(t, resp.Data, map[string]interface{}{})
+		assert.Equal(t, resp.Data, map[string]any{})
 
 		// then create the key and read it
 		resp, err = b.HandleRequest(context.Background(), &logical.Request{
 			Operation: logical.CreateOperation,
 			Path:      path,
 			Storage:   reqStorage,
-			Data: map[string]interface{}{
+			Data: map[string]any{
 				"jwt": createAccountJWT(),
 			},
 		})
@@ -71,7 +71,7 @@ func TestCRUDAccountJWTs(t *testing.T) {
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
-		assert.Equal(t, map[string]interface{}{"keys": []string{"Acc1"}}, resp.Data)
+		assert.Equal(t, map[string]any{"keys": []string{"Acc1"}}, resp.Data)
 
 		// then delete the key and read it
 		resp, err = b.HandleRequest(context.Background(), &logical.Request{
@@ -95,7 +95,7 @@ func TestCRUDAccountJWTs(t *testing.T) {
 			Operation: logical.CreateOperation,
 			Path:      path,
 			Storage:   reqStorage,
-			Data: map[string]interface{}{
+			Data: map[string]any{
 				"jwt": createAccountJWT(),
 			},
 		})
@@ -127,7 +127,7 @@ func TestCRUDAccountJWTs(t *testing.T) {
 				Operation: logical.CreateOperation,
 				Path:      path,
 				Storage:   reqStorage,
-				Data: map[string]interface{}{
+				Data: map[string]any{
 					"jwt": createAccountJWT(),
 				},
 			})
@@ -143,7 +143,7 @@ func TestCRUDAccountJWTs(t *testing.T) {
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
-		assert.Equal(t, map[string]interface{}{
+		assert.Equal(t, map[string]any{
 			"keys": []string{"acc0", "acc1", "acc2"},
 		}, resp.Data)
 
@@ -167,7 +167,7 @@ func TestCRUDAccountJWTs(t *testing.T) {
 		})
 		assert.NoError(t, err)
 		assert.False(t, resp.IsError())
-		assert.Equal(t, map[string]interface{}{}, resp.Data)
+		assert.Equal(t, map[string]any{}, resp.Data)
 
 	})
 
@@ -177,7 +177,7 @@ func TestCRUDAccountJWTs(t *testing.T) {
 			Operation: logical.CreateOperation,
 			Path:      "jwt/operator/op1/account/acc1",
 			Storage:   reqStorage,
-			Data: map[string]interface{}{
+			Data: map[string]any{
 				"jwt": createOperatorJWT(),
 			},
 		})
@@ -188,7 +188,7 @@ func TestCRUDAccountJWTs(t *testing.T) {
 			Operation: logical.CreateOperation,
 			Path:      "jwt/operator/op1/account/acc1",
 			Storage:   reqStorage,
-			Data: map[string]interface{}{
+			Data: map[string]any{
 				"jwt": "wrong jwt",
 			},
 		})
