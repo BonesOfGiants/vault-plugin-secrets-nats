@@ -15,6 +15,7 @@ import (
 	accountv1 "github.com/bonesofgiants/openbao-plugin-secrets-nats/pkg/claims/account/v1alpha1"
 	"github.com/bonesofgiants/openbao-plugin-secrets-nats/pkg/claims/common"
 	operatorv1 "github.com/bonesofgiants/openbao-plugin-secrets-nats/pkg/claims/operator/v1alpha1"
+	"github.com/bonesofgiants/openbao-plugin-secrets-nats/pkg/claims/user/v1alpha1"
 	"github.com/bonesofgiants/openbao-plugin-secrets-nats/pkg/stm"
 )
 
@@ -617,6 +618,19 @@ func issueSystemAccount(ctx context.Context, storage logical.Storage, issue Issu
 		Operator: issue.Operator,
 		Account:  DefaultSysAccountName,
 		User:     DefaultPushUser,
+		ClaimsTemplate: v1alpha1.UserClaims{
+			User: v1alpha1.User{
+				UserPermissionLimits: v1alpha1.UserPermissionLimits{
+					Limits: v1alpha1.Limits{
+						NatsLimits: common.NatsLimits{
+							Subs:    -1,
+							Payload: -1,
+							Data:    -1,
+						},
+					},
+				},
+			},
+		},
 	})
 	if err != nil {
 		return err
