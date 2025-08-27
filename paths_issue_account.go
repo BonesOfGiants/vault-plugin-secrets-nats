@@ -3,6 +3,7 @@ package natsbackend
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"strings"
 	"time"
@@ -623,6 +624,7 @@ func refreshAccountResolverDelete(ctx context.Context, storage logical.Storage, 
 
 func refreshAccountResolver(ctx context.Context, storage logical.Storage, issue *IssueAccountStorage, action AccountResolverAction) error {
 	// read operator issue
+
 	op, err := readOperatorIssue(ctx, storage, IssueOperatorParameters{
 		Operator: issue.Operator,
 	})
@@ -642,6 +644,11 @@ func refreshAccountResolver(ctx context.Context, storage logical.Storage, issue 
 		return nil
 	}
 
+	var deletionFailedErr error
+	if action == AccountResolverActionDelete && !op.ForceAccountDeletion {
+		deletionFailedErr = errors.New("failed to sync account")
+	}
+
 	// read account jwt
 	accJWT, err := readAccountJWT(ctx, storage, JWTParameters{
 		Operator: issue.Operator,
@@ -653,7 +660,7 @@ func refreshAccountResolver(ctx context.Context, storage logical.Storage, issue 
 		log.Warn().Str("operator", issue.Operator).
 			Str("account", issue.Account).
 			Msg("cannot sync account server: account jwt does not exist")
-		return nil
+		return deletionFailedErr
 	}
 
 	// Since JWTs are now generated on-demand, we need to generate the system user JWT
@@ -669,7 +676,7 @@ func refreshAccountResolver(ctx context.Context, storage logical.Storage, issue 
 		log.Warn().Str("operator", issue.Operator).
 			Str("account", issue.Account).
 			Msg("cannot sync account server: system account user template does not exist")
-		return nil
+		return deletionFailedErr
 	}
 
 	// Generate fresh system user JWT for connection
@@ -684,7 +691,7 @@ func refreshAccountResolver(ctx context.Context, storage logical.Storage, issue 
 		log.Warn().Str("operator", issue.Operator).
 			Str("account", issue.Account).
 			Msg("cannot sync account server: failed to generate system user credentials")
-		return nil
+		return deletionFailedErr
 	}
 
 	// read system account user nkey
@@ -699,12 +706,12 @@ func refreshAccountResolver(ctx context.Context, storage logical.Storage, issue 
 		log.Error().Str("operator", issue.Operator).
 			Str("account", issue.Account).
 			Msg("cannot sync account server: system account user nkey does not exist")
-		return nil
+		return deletionFailedErr
 	}
 
 	sysUserKp, err := nkeys.FromSeed(sysUserNkey.Seed)
 	if err != nil {
-		return err
+		return deletionFailedErr
 	}
 
 	// Extract JWT from creds - we need just the JWT part, not the full creds format
@@ -723,7 +730,7 @@ func refreshAccountResolver(ctx context.Context, storage logical.Storage, issue 
 		log.Error().Str("operator", issue.Operator).
 			Str("account", issue.Account).
 			Msg("cannot sync account server: failed to extract JWT from system user creds")
-		return nil
+		return deletionFailedErr
 	}
 
 	// connect to nats
@@ -734,12 +741,12 @@ func refreshAccountResolver(ctx context.Context, storage logical.Storage, issue 
 			Err(err).
 			Msg("cannot create conection to account server")
 		resolver.CloseConnection()
-		return nil
+		return deletionFailedErr
 	}
 	defer resolver.CloseConnection()
 
-	switch {
-	case action == AccountResolverActionPush:
+	switch action {
+	case AccountResolverActionPush:
 		err = resolver.PushAccount(issue.Account, []byte(accJWT.JWT))
 		if err != nil {
 			log.Error().Str("operator", issue.Operator).
@@ -749,7 +756,7 @@ func refreshAccountResolver(ctx context.Context, storage logical.Storage, issue 
 			resolver.CloseConnection()
 			return nil
 		}
-	case action == AccountResolverActionDelete:
+	case AccountResolverActionDelete:
 		operatorNkey, err := readOperatorNkey(ctx, storage, NkeyParameters{
 			Operator: issue.Operator,
 		})
@@ -758,7 +765,7 @@ func refreshAccountResolver(ctx context.Context, storage logical.Storage, issue 
 		} else if operatorNkey == nil {
 			log.Warn().Str("operator", issue.Operator).
 				Msg("cannot sync account server: operator nkey does not exist")
-			return nil
+			return deletionFailedErr
 		}
 		kp, err := toNkeyData(operatorNkey)
 		if err != nil {
@@ -776,11 +783,11 @@ func refreshAccountResolver(ctx context.Context, storage logical.Storage, issue 
 		})
 		if err != nil {
 			return err
-		} else if accJWT == nil {
+		} else if accNkey == nil {
 			log.Warn().Str("operator", issue.Operator).
 				Str("account", issue.Account).
-				Msg("cannot sync account server: account neky does not exist")
-			return nil
+				Msg("cannot sync account server: account nkey does not exist")
+			return deletionFailedErr
 		}
 		kp, err = toNkeyData(accNkey)
 		if err != nil {
@@ -801,7 +808,7 @@ func refreshAccountResolver(ctx context.Context, storage logical.Storage, issue 
 				Err(err).
 				Msg("cannot sync account server (delete)")
 			resolver.CloseConnection()
-			return nil
+			return deletionFailedErr
 		}
 	}
 

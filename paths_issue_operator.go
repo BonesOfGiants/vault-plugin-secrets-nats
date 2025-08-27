@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"slices"
 
 	"github.com/openbao/openbao/sdk/v2/framework"
 	"github.com/openbao/openbao/sdk/v2/logical"
@@ -20,19 +21,21 @@ import (
 )
 
 type IssueOperatorStorage struct {
-	Operator            string                    `json:"operator"`
-	CreateSystemAccount bool                      `json:"createSystemAccount"`
-	SyncAccountServer   bool                      `json:"syncAccountServer"`
-	Claims              operatorv1.OperatorClaims `json:"claims"`
+	Operator             string                    `json:"operator"`
+	CreateSystemAccount  bool                      `json:"createSystemAccount"`
+	SyncAccountServer    bool                      `json:"syncAccountServer"`
+	ForceAccountDeletion bool                      `json:"forceAccountDeletion"`
+	Claims               operatorv1.OperatorClaims `json:"claims"`
 }
 
 // IssueOperatorParameters
 // +k8s:deepcopy-gen=true
 type IssueOperatorParameters struct {
-	Operator            string                    `json:"operator"`
-	CreateSystemAccount bool                      `json:"createSystemAccount,omitempty"`
-	SyncAccountServer   bool                      `json:"syncAccountServer,omitempty"`
-	Claims              operatorv1.OperatorClaims `json:"claims,omitempty"`
+	Operator             string                    `json:"operator"`
+	CreateSystemAccount  bool                      `json:"createSystemAccount,omitempty"`
+	SyncAccountServer    bool                      `json:"syncAccountServer,omitempty"`
+	ForceAccountDeletion bool                      `json:"forceAccountDeletion,omitempty"`
+	Claims               operatorv1.OperatorClaims `json:"claims"`
 }
 
 type IssueOperatorData struct {
@@ -365,15 +368,7 @@ func storeOperatorIssue(ctx context.Context, storage logical.Storage, params Iss
 		// diff current and incomming signing keys
 		// delete removed signing keys
 		for _, signingKey := range issue.Claims.SigningKeys {
-			contains := func(a []string, x string) bool {
-				for _, n := range a {
-					if x == n {
-						return true
-					}
-				}
-				return false
-			}
-			if !contains(params.Claims.SigningKeys, signingKey) {
+			if !slices.Contains(params.Claims.SigningKeys, signingKey) {
 				p := NkeyParameters{
 					Operator: params.Operator,
 					Signing:  signingKey,
@@ -392,6 +387,7 @@ func storeOperatorIssue(ctx context.Context, storage logical.Storage, params Iss
 	issue.Claims.SigningKeys = params.Claims.SigningKeys
 	issue.Claims.AccountServerURL = params.Claims.AccountServerURL
 	issue.SyncAccountServer = params.SyncAccountServer
+	issue.ForceAccountDeletion = params.ForceAccountDeletion
 	err = storeInStorage(ctx, storage, path, issue)
 	if err != nil {
 		return nil, err
