@@ -107,7 +107,7 @@ func (b *NatsBackend) pathReadAccountNkey(ctx context.Context, req *logical.Requ
 	}
 
 	if nkey == nil {
-		return logical.ErrorResponse(NkeyNotFoundError), nil
+		return logical.ErrorResponse(NkeyNotFoundError), logical.ErrUnsupportedPath
 	}
 
 	return createResponseNkeyData(nkey)

@@ -28,7 +28,7 @@ func TestCRUDOperatorIssue(t *testing.T) {
 			Path:      path,
 			Storage:   reqStorage,
 		})
-		assert.NoError(t, err)
+		assert.Equal(t, logical.ErrUnsupportedPath, err)
 		assert.True(t, resp.IsError())
 
 		resp, err = b.HandleRequest(context.Background(), &logical.Request{
@@ -218,7 +218,7 @@ func TestCRUDOperatorIssue(t *testing.T) {
 			Path:      path,
 			Storage:   reqStorage,
 		})
-		assert.NoError(t, err)
+		assert.Equal(t, logical.ErrUnsupportedPath, err)
 		assert.True(t, resp.IsError())
 
 		//////////////////////////
@@ -385,7 +385,7 @@ func TestCRUDOperatorIssue(t *testing.T) {
 			Path:      "nkey/operator/op1",
 			Storage:   reqStorage,
 		})
-		assert.NoError(t, err)
+		assert.Equal(t, logical.ErrUnsupportedPath, err)
 		assert.True(t, resp.IsError())
 
 		// read the jwt
@@ -394,7 +394,7 @@ func TestCRUDOperatorIssue(t *testing.T) {
 			Path:      "jwt/operator/op1",
 			Storage:   reqStorage,
 		})
-		assert.NoError(t, err)
+		assert.Equal(t, logical.ErrUnsupportedPath, err)
 		assert.True(t, resp.IsError())
 
 		// read a signing key
@@ -403,7 +403,7 @@ func TestCRUDOperatorIssue(t *testing.T) {
 			Path:      "nkey/operator/op1/signing/key2",
 			Storage:   reqStorage,
 		})
-		assert.NoError(t, err)
+		assert.Equal(t, logical.ErrUnsupportedPath, err)
 		assert.True(t, resp.IsError())
 
 	})

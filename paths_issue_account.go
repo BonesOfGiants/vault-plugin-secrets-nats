@@ -156,7 +156,7 @@ func (b *NatsBackend) pathReadAccountIssue(ctx context.Context, req *logical.Req
 	}
 
 	if issue == nil {
-		return logical.ErrorResponse(IssueNotFoundError), nil
+		return logical.ErrorResponse(IssueNotFoundError), logical.ErrUnsupportedPath
 	}
 
 	return createResponseIssueAccountData(issue)

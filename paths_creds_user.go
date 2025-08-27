@@ -131,7 +131,7 @@ func (b *NatsBackend) pathReadUserCreds(ctx context.Context, req *logical.Reques
 	// Generate fresh credentials on-demand
 	UserCredsData, err := generateUserCreds(ctx, req.Storage, params)
 	if err != nil {
-		return logical.ErrorResponse(fmt.Sprintf("GeneratingCredsFailedError: %s", err.Error())), nil
+		return logical.ErrorResponse(fmt.Sprintf("GeneratingCredsFailedError: %s", err.Error())), err
 	}
 
 	if UserCredsData == nil {
@@ -200,7 +200,7 @@ func generateUserCreds(ctx context.Context, storage logical.Storage, params User
 		return nil, fmt.Errorf("could not read user template: %s", err)
 	}
 	if issue == nil {
-		return nil, fmt.Errorf("user template not found")
+		return nil, logical.ErrUnsupportedPath
 	}
 
 	// 2. Apply template parameters to claims
@@ -225,7 +225,7 @@ func generateUserCreds(ctx context.Context, storage logical.Storage, params User
 		return nil, fmt.Errorf("could not read user nkey: %s", err)
 	}
 	if userNkey == nil {
-		return nil, fmt.Errorf("user nkey not found")
+		return nil, logical.ErrUnsupportedPath
 	}
 
 	// 5. Create creds file

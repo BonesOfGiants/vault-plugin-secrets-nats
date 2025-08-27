@@ -158,7 +158,7 @@ func convertExportType(t string) (jwt.ExportType, error) {
 	case "Unknown":
 		return jwt.Unknown, nil
 	default:
-		return -1, fmt.Errorf("invalid export type")
+		return -1, fmt.Errorf("invalid export type %v, must be one of: Stream, Service", t)
 	}
 }
 

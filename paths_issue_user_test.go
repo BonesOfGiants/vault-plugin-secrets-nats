@@ -54,7 +54,7 @@ func TestCRUDUserIssue(t *testing.T) {
 			Path:      path,
 			Storage:   reqStorage,
 		})
-		assert.NoError(t, err)
+		assert.Equal(t, logical.ErrUnsupportedPath, err)
 		assert.True(t, resp.IsError())
 
 		resp, err = b.HandleRequest(context.Background(), &logical.Request{
@@ -270,7 +270,7 @@ func TestCRUDUserIssue(t *testing.T) {
 			Path:      path,
 			Storage:   reqStorage,
 		})
-		assert.NoError(t, err)
+		assert.Equal(t, logical.ErrUnsupportedPath, err)
 		assert.True(t, resp.IsError())
 
 		//////////////////////////
@@ -434,7 +434,7 @@ func TestCRUDUserIssue(t *testing.T) {
 			Path:      "nkey/operator/op1/account/ac1/user/us1",
 			Storage:   reqStorage,
 		})
-		assert.NoError(t, err)
+		assert.Equal(t, logical.ErrUnsupportedPath, err)
 		assert.True(t, resp.IsError())
 
 		//////////////////////////
@@ -460,7 +460,7 @@ func TestCRUDUserIssue(t *testing.T) {
 			Path:      "creds/operator/op1/account/ac1/user/us1",
 			Storage:   reqStorage,
 		})
-		assert.NoError(t, err)
+		assert.Equal(t, logical.ErrUnsupportedPath, err)
 		assert.True(t, resp.IsError())
 	})
 
@@ -544,12 +544,8 @@ func TestCRUDUserIssue(t *testing.T) {
 			Path:      jwtUserPath,
 			Storage:   reqStorage,
 		})
-		// Should return "unsupported path" error
-		if err != nil {
-			assert.Contains(t, err.Error(), "unsupported path")
-		} else {
-			assert.True(t, resp.IsError())
-		}
+		assert.Equal(t, logical.ErrUnsupportedPath, err)
+		assert.False(t, resp.IsError())
 
 		//////////////////////////
 		// read the creds - should work since it generates JWT on-demand
@@ -585,7 +581,7 @@ func TestCRUDUserIssue(t *testing.T) {
 			Path:      nkeyUserPath,
 			Storage:   reqStorage,
 		})
-		assert.NoError(t, err)
+		assert.Equal(t, logical.ErrUnsupportedPath, err)
 		assert.True(t, resp.IsError())
 
 		//////////////////////////
@@ -596,12 +592,8 @@ func TestCRUDUserIssue(t *testing.T) {
 			Path:      jwtUserPath,
 			Storage:   reqStorage,
 		})
-		// Should return "unsupported path" error
-		if err != nil {
-			assert.Contains(t, err.Error(), "unsupported path")
-		} else {
-			assert.True(t, resp.IsError())
-		}
+		assert.Equal(t, logical.ErrUnsupportedPath, err)
+		assert.False(t, resp.IsError())
 
 		//////////////////////////
 		// read the creds
@@ -611,7 +603,7 @@ func TestCRUDUserIssue(t *testing.T) {
 			Path:      credsUserPath,
 			Storage:   reqStorage,
 		})
-		assert.NoError(t, err)
+		assert.Equal(t, logical.ErrUnsupportedPath, err)
 		assert.True(t, resp.IsError())
 	})
 

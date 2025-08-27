@@ -153,7 +153,7 @@ func (b *NatsBackend) pathReadOperatorIssue(ctx context.Context, req *logical.Re
 	}
 
 	if issue == nil {
-		return logical.ErrorResponse(IssueNotFoundError), nil
+		return logical.ErrorResponse(IssueNotFoundError), logical.ErrUnsupportedPath
 	}
 
 	status := getIssueOperatorStatus(ctx, req.Storage, issue)

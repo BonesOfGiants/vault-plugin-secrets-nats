@@ -107,7 +107,7 @@ func (b *NatsBackend) pathReadAccountJWT(ctx context.Context, req *logical.Reque
 	}
 
 	if jwt == nil {
-		return logical.ErrorResponse(JwtNotFoundError), nil
+		return logical.ErrorResponse(JwtNotFoundError), logical.ErrUnsupportedPath
 	}
 
 	return createResponseJWTData(jwt)

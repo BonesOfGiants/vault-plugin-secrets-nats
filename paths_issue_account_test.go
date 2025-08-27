@@ -38,7 +38,7 @@ func TestCRUDAccountIssue(t *testing.T) {
 			Path:      path,
 			Storage:   reqStorage,
 		})
-		assert.NoError(t, err)
+		assert.Equal(t, logical.ErrUnsupportedPath, err)
 		assert.True(t, resp.IsError())
 
 		resp, err = b.HandleRequest(context.Background(), &logical.Request{
@@ -236,7 +236,7 @@ func TestCRUDAccountIssue(t *testing.T) {
 			Path:      path,
 			Storage:   reqStorage,
 		})
-		assert.NoError(t, err)
+		assert.Equal(t, logical.ErrUnsupportedPath, err)
 		assert.True(t, resp.IsError())
 
 		//////////////////////////

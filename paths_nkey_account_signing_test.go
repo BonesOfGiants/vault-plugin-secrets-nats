@@ -15,13 +15,13 @@ func TestCRUDAccountSigningNKeys(t *testing.T) {
 	t.Run("Test CRUD for account signing nkeys", func(t *testing.T) {
 		path := "nkey/operator/op123/account/acc123/signing/sk1"
 
-		// first call read/delete/list withour creating the key
+		// first call read/delete/list without creating the key
 		resp, err := b.HandleRequest(context.Background(), &logical.Request{
 			Operation: logical.ReadOperation,
 			Path:      path,
 			Storage:   reqStorage,
 		})
-		assert.NoError(t, err)
+		assert.Equal(t, logical.ErrUnsupportedPath, err)
 		assert.True(t, resp.IsError())
 
 		resp, err = b.HandleRequest(context.Background(), &logical.Request{
@@ -88,7 +88,7 @@ func TestCRUDAccountSigningNKeys(t *testing.T) {
 			Path:      path,
 			Storage:   reqStorage,
 		})
-		assert.NoError(t, err)
+		assert.Equal(t, logical.ErrUnsupportedPath, err)
 		assert.True(t, resp.IsError())
 
 		// then recreate the key and read and delete it

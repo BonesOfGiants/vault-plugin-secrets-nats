@@ -23,9 +23,8 @@ func TestCRUDUserCreds(t *testing.T) {
 			Path:      path,
 			Storage:   reqStorage,
 		})
-		assert.NoError(t, err)
+		assert.Equal(t, logical.ErrUnsupportedPath, err)
 		assert.True(t, resp.IsError())
-		assert.Contains(t, resp.Error().Error(), "user template not found")
 	})
 
 	t.Run("Test CRUD for user creds with template", func(t *testing.T) {
@@ -151,7 +150,7 @@ func TestCRUDUserCreds(t *testing.T) {
 			Path:      credsPath,
 			Storage:   reqStorage,
 		})
-		assert.NoError(t, err)
+		assert.Equal(t, logical.ErrUnsupportedPath, err)
 		assert.True(t, resp.IsError())
 	})
 
